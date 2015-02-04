@@ -27,6 +27,7 @@
        android:background="@color/primary_material_light"
        android:layout_below="@id/REGISTER_VIEW_HORIZONTALDIVIDER">
         <EditText
+            android:inputType="textPersonName"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="15dp"

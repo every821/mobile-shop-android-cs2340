@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.shopwithfriends.Main" >
+
+    <TextView
+        android:id="@+id/VIEWFRIENDSLIST_TEXTVIEW_TEXT1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"/>
+    <TextView
+        android:id="@+id/VIEWFRIENDSLIST_TEXTVIEW_TEXT2"
+        android:layout_below="@id/VIEWFRIENDSLIST_TEXTVIEW_TEXT1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND"
+        android:hint="Got friends?"
+        android:layout_below="@id/VIEWFRIENDSLIST_TEXTVIEW_TEXT2"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"
+        android:text="Add friend!"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/VIEWFRIENDSLIST_BUTTON_GETFRIENDS"
+        android:text="Get friends!"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"
+        android:layout_alignTop="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/VIEWFRIENDSLIST_BUTTON_FINDFRIEND"
+        android:text="Find friend!"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"
+        android:layout_alignTop="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/VIEWFRIENDSLIST_LISTVIEW_FRIENDS"
+        android:layout_below="@id/VIEWFRIENDSLIST_BUTTON_GETFRIENDS"/>
+
+    <View style="@style/hdivider"
+        android:layout_above="@id/VIEWFRIENDSLIST_LISTVIEW_FRIENDS"/>
+
+</RelativeLayout>

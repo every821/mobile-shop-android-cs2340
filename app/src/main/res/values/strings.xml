@@ -8,5 +8,6 @@
     <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_welcome">Welcome</string>
+    <string name="title_activity_view_friends_list">ViewFriendsList</string>
 
 </resources>

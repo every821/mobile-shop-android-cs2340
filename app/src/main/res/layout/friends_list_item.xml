@@ -1,0 +1,11 @@
+
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/FRIENDSLISTITEM_TEXTIEW_ITEM"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:textSize="15dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"/>
+

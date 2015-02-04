@@ -1,23 +1,82 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shopwithfriends.Main" >
-
-    <TextView
-        android:id="@+id/MAIN_TEXTVIEW_TEXT1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/MAIN_TEXTVIEW_TEXT2"
-        android:layout_below="@id/MAIN_TEXTVIEW_TEXT1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:paddingTop="45dp"
+    android:paddingBottom="45dp" >
 
     <ImageView
-        android:layout_below="@id/MAIN_TEXTVIEW_TEXT2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/MAIN_IMAGEVIEW_DOGE" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/post"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="Post"
+        android:alpha="1"
+        android:id="@+id/MAIN_IMAGEVIEW_POST"/>
+
+    <ImageView
+        android:alpha="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/share"
+        android:id="@+id/MAIN_IMAGEVIEW_SHARE"
+        android:contentDescription="Share" />
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:gravity="center"
+        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_SHARE"
+        android:layout_below="@id/MAIN_IMAGEVIEW_SHARE"/>
+
+    <ImageView
+        android:alpha="1"
+        android:layout_width="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_height="150dp"
+        android:contentDescription="Friends"
+        android:src="@drawable/friends"
+        android:id="@+id/MAIN_IMAGEVIEW_FRIENDS"/>
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Friends"
+        android:gravity="center"
+        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_FRIENDS"
+        android:layout_above="@id/MAIN_IMAGEVIEW_FRIENDS"/>
+
+    <ImageView
+        android:alpha="1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/profile"
+        android:contentDescription="Profile"
+        android:layout_marginRight="10dp"
+        android:id="@+id/MAIN_IMAGEVIEW_PROFILE"/>
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:gravity="center"
+        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_SHARE"
+        android:layout_above="@id/MAIN_IMAGEVIEW_PROFILE"/>
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_FRIENDS"
+        android:text="Post"
+        android:layout_below="@id/MAIN_IMAGEVIEW_POST"/>
+
+
 
 </RelativeLayout>
