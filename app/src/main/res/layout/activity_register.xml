@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="15dp"
+    android:id="@+id/REGISTER_RELATIVELAYOUT_RL1"
+    android:background="@color/gray">
+
+    <TextView
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:paddingTop="10dp"
+        android:id="@+id/REGISTER_TEXTVIEW_REGISTER"
+        android:gravity="center_horizontal"
+        android:text="Register"/>
+
+    <View style="@style/hdivider"
+        android:layout_width="fill_parent"
+        android:layout_below="@id/REGISTER_TEXTVIEW_REGISTER"
+        android:id="@+id/REGISTER_VIEW_HORIZONTALDIVIDER"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       android:background="@color/primary_material_light"
+       android:layout_below="@id/REGISTER_VIEW_HORIZONTALDIVIDER">
+        <EditText
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/REGISTER_EDITTEXT_NAME"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Real Name" />
+
+        <EditText
+            android:layout_marginTop="15dp"
+            android:id="@+id/REGISTER_EDITTEXT_USERNAME"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/REGISTER_EDITTEXT_NAME"
+            android:layout_alignRight="@id/REGISTER_EDITTEXT_NAME"
+            android:layout_alignLeft="@id/REGISTER_EDITTEXT_NAME"
+            android:hint="Username" />
+
+        <EditText
+            android:layout_marginTop="15dp"
+            android:id="@+id/REGISTER_EDITTEXT_PASSWORD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/REGISTER_EDITTEXT_USERNAME"
+            android:layout_alignRight="@id/REGISTER_EDITTEXT_NAME"
+            android:layout_alignLeft="@id/REGISTER_EDITTEXT_NAME"
+            android:hint="Password" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/REGISTER_EDITTEXT_PASSWORD"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/REGISTER_BUTTON_REGISTER"
+                android:textColor="#FFFFFF"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_password"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/buttonshape"
+                android:text="Register"
+                android:layout_marginRight="5dp"/>
+
+            <Button
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/buttonshape"
+                android:textColor="#FFFFFF"
+                android:id="@+id/REGISTER_BUTTON_CANCEL"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_password"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:text="Cancel" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.shopwithfriends.Main" >
+
+    <TextView
+        android:id="@+id/MAIN_TEXTVIEW_TEXT1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/MAIN_TEXTVIEW_TEXT2"
+        android:layout_below="@id/MAIN_TEXTVIEW_TEXT1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_below="@id/MAIN_TEXTVIEW_TEXT2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/MAIN_IMAGEVIEW_DOGE" />
+
+</RelativeLayout>
