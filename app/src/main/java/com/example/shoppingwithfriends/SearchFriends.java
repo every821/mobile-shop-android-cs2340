@@ -23,7 +23,6 @@ public class SearchFriends {
         for (String item : items) {
             if ((item != null) && item.toLowerCase(Locale.ENGLISH).contains(query)) {
                 oldItems.add(item);
-                break;
             }
         }
         oldQuery = query;

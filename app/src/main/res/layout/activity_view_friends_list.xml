@@ -1,27 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.shopwithfriends.Main" >
-
-    <TextView
-        android:textColor="@color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:paddingTop="10dp"
-        android:id="@+id/VIEWFRIENDSLIST_TEXTVIEW_REGISTER"
-        android:gravity="center_horizontal"
-        android:text="Register"/>
-
-    <View style="@style/hdivider"
-        android:layout_width="fill_parent"
-        android:layout_below="@id/VIEWFRIENDSLIST_TEXTVIEW_REGISTER"
-        android:id="@+id/VIEWFRIENDSLIST_VIEW_HORIZONTALDIVIDER"/>
+    android:layout_height="match_parent" >
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_below="@id/VIEWFRIENDSLIST_VIEW_HORIZONTALDIVIDER"
         android:layout_height="wrap_content"
         android:id="@+id/VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND"
         android:hint="Got friends?" />
@@ -33,22 +18,6 @@
         android:text="Add friend!"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/VIEWFRIENDSLIST_BUTTON_GETFRIENDS"
-        android:text="Get friends!"
-        android:layout_centerHorizontal="true"
-        android:layout_toRightOf="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"
-        android:layout_alignTop="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/VIEWFRIENDSLIST_BUTTON_FINDFRIEND"
-        android:text="Find!"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"
-        android:layout_alignTop="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"/>
 
     <ListView
         android:layout_width="match_parent"

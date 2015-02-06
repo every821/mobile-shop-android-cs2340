@@ -1,7 +1,6 @@
 package com.example.shoppingwithfriends;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +43,8 @@ public class FriendsListAdapter extends ArrayAdapter<String> {
             }
         });
         tvUsername.setText(userslist.get(position));
-        ivAddView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_add_person));
+        ivAddView.setVisibility(View.GONE);
+        //ivAddView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.view));
         return rowView;
     }
 
