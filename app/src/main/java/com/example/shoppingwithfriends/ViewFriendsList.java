@@ -76,6 +76,10 @@ public class ViewFriendsList extends Activity {
         });
     }
 
+    /**
+     *
+     * @param arr Resulting list of friends returned from server
+     */
     public static void onGetFriendsReturn(ArrayList<String> arr) {
         allFriends = arr;
         searchedFriends = arr;

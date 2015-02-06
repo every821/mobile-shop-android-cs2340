@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-
+/**
+ * The Welcome screen for the application
+ */
 @SuppressLint("ShowToast")
 public class Welcome extends Activity {
 

@@ -126,10 +126,6 @@ public class Register extends Activity {
         super.onPause();
     }
 
-    public static void onRegisterSucceed() {
-
-    }
-
     public static void onRegisterFail(Context mContext, Integer result) {
         int r = (int) result;
         String msg = "";

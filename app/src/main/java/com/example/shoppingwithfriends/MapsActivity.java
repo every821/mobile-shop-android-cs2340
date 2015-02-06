@@ -49,6 +49,10 @@ public class MapsActivity extends FragmentActivity  implements ConnectionCallbac
 
     }
 
+    /**
+     * Handles the work done when connected to Google Places API server
+     * @param connectionHint details about the connection
+     */
     @Override
     public void onConnected(Bundle connectionHint) {
        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -67,6 +71,10 @@ public class MapsActivity extends FragmentActivity  implements ConnectionCallbac
 
     }
 
+    /**
+     *
+     * @param result The error from the failed connection
+     */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         if (mResolvingError) {

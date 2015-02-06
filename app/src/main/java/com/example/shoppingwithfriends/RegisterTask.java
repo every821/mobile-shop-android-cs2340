@@ -61,7 +61,6 @@ public class RegisterTask extends AsyncTask<Context, Void, Integer> {
         super.onPostExecute(result);
         System.out.println("result: " + result);
         if (result == HttpStatus.SC_ACCEPTED) {
-            Register.onRegisterSucceed();
             Intent intent = new Intent(mContext, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("username", username);

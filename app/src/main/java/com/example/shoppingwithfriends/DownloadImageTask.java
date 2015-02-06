@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import java.io.InputStream;
 import java.util.HashMap;
 
+/**
+ * Downloads an image from a given url and places it inside the provided ImageView
+ */
 class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;
     String key;
