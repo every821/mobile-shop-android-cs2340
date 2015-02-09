@@ -51,7 +51,7 @@
         </activity>
         <activity
             android:name=".ViewFriendsList"
-            android:label="@string/title_activity_view_friends_list" >
+            android:label= "Friends List" >
         </activity>
         <activity
             android:name=".MapsActivity"

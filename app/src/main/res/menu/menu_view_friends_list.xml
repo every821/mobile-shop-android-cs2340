@@ -2,8 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ViewFriendsList">
-
-    <item android:id="@+id/action_add_friendslist" android:title="Add"
+    <item android:id="@+id/action_FRIENDSLIST_ICON_ADD"
+        android:title="Add"
+        android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_action_add_person"
-        android:orderInCategory="100" app:showAsAction="always" />
+        android:actionLayout="@layout/friendslist_actionbar"
+        android:orderInCategory="100"
+        app:showAsAction="always|never">
+    </item>
 </menu>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:commitIcon="@drawable/ic_action_add_person"
+        android:goIcon="@drawable/ic_action_add_person"
+        android:queryHint="Find new friends.."
+        android:searchIcon="@drawable/ic_action_add_person"
+        android:queryBackground="@drawable/ic_action_add_person"
+        android:id="@+id/FRIENDSLIST_ACTIONBAR_EDITTEXT_ADDFRIEND" />
