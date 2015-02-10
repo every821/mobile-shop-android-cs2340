@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/VIEWFRIENDSLIST_LISTVIEW_FRIENDS"
+        android:listSelector="@drawable/listselector"
         android:layout_below="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"/>
 
     <View style="@style/hdivider"

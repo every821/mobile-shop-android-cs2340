@@ -9,18 +9,39 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+
 import java.util.ArrayList;
 
-public class FriendsListAdapter extends ArrayAdapter<String> {
+public class FriendsListAdapter extends ArrayAdapter<String> implements SwipeLayout.SwipeListener {
     private final Context context;
-  //  private final String users[];
+
+  @Override
+  public void onStartOpen(SwipeLayout swipeLayout) {
+
+  }
+          @Override
+          public void onOpen(SwipeLayout swipeLayout) {
+
+          }
+          @Override
+          public void onStartClose(SwipeLayout swipeLayout) {
+
+          }
+          @Override
+          public void onClose(SwipeLayout swipeLayout) {
+
+          }
+          @Override
+          public void onUpdate(SwipeLayout swipeLayout, int i, int i2) {
+
+          }
+          @Override
+          public void onHandRelease(SwipeLayout swipeLayout, float v, float v2) {
+
+          }
     private final ArrayList<String> userslist;
 
-  //  public FriendsListAdapter(Context context, String u[]) {
-    //    super(context, R.layout.friends_list_item, new String[u.length]);
-   //     this.context = context;
-  //      this.users = u;
- //   }
     public FriendsListAdapter(Context context, ArrayList<String> u) {
         super(context, R.layout.friends_list_item, u);
         this.context = context;
@@ -44,7 +65,6 @@ public class FriendsListAdapter extends ArrayAdapter<String> {
         });
         tvUsername.setText(userslist.get(position));
         ivAddView.setVisibility(View.GONE);
-        //ivAddView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.view));
         return rowView;
     }
 

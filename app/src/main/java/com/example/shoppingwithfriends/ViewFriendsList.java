@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ViewFriendsList extends ActionBarActivity implements SearchView.OnQueryTextListener {
+public class ViewFriendsList extends ActionBarActivity {
 
     static String username, password;
     EditText etFindFriend;
@@ -34,10 +32,12 @@ public class ViewFriendsList extends ActionBarActivity implements SearchView.OnQ
     static Context mContext;
     static ListView lvAllFriends;
     static int completed = 0;
+    static GridViewAdapter nadapter;
     static FriendsListAdapter adapter;
     static UsersListAdapter madapter;
     static ArrayList<String> allFriends, searchedFriends;
     static ArrayList<String> allUsers, searchedUsers;
+    static View viewWithFocus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +86,7 @@ public class ViewFriendsList extends ActionBarActivity implements SearchView.OnQ
                 } else {
                     searchedFriends = SearchFriends.search(allFriends, s.toString());
                 }
-                adapter = new FriendsListAdapter(mContext, searchedFriends);
-                //adapter = new ArrayAdapter<String>(mContext, R.layout.friends_list_item, searchedFriends);
-                lvAllFriends.setAdapter(adapter);
+                updateAdapter();
             }
         });
 
@@ -120,9 +118,14 @@ public class ViewFriendsList extends ActionBarActivity implements SearchView.OnQ
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Find a user");
-            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.e("TAG", "Click OK");
+
+                }
+            });
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
                 }
             });
             builder.setIcon(R.drawable.ic_action_add_person_light);
@@ -134,46 +137,53 @@ public class ViewFriendsList extends ActionBarActivity implements SearchView.OnQ
             input.setHint("Search all users");
             input.setLayoutParams(lp);
             builder.setAdapter(madapter, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int position) {
-                    new AddFriendTask(username, password, searchedUsers.get(position)).execute(mContext);
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    new AddFriendTask(username, password, searchedUsers.get(which)).execute(mContext);
                 }
             });
-            builder.setView(input);
-            AlertDialog alertDialog = builder.create();
-
+            //builder.setView(input);
+            final AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
         return false;
     }
 
     /**
-     *
      * @param arr Resulting list of friends returned from server
      */
     public static void onGetFriendsReturn(ArrayList<String> arr) {
         allFriends = arr;
         searchedFriends = arr;
-        adapter = new FriendsListAdapter(mContext, arr);
-        lvAllFriends.setAdapter(adapter);
+        updateAdapter();
+        completed = 1;
+    }
+
+    public static void onRemoveFriendReturn(String friend) {
+        allUsers.add(friend);
+        allFriends.remove(friend);
+        searchedFriends.remove(friend);
+        updateAdapter();
+    }
+
+    private static void updateAdapter() {
+        nadapter = new GridViewAdapter(mContext, searchedFriends);
+        lvAllFriends.setAdapter(nadapter);
         lvAllFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Click", "Item clicked: " + position);
+                if (nadapter.isOpen(position)) {
+                    new RemoveFriendTask(username, password, searchedFriends.get(position)).execute(mContext);
+                } else {
+                    Toast.makeText(mContext, "Friend: " + searchedFriends.get(position), Toast.LENGTH_SHORT).show();
+                }
             }
         });
-        completed = 1;
     }
 
     public static void onAddFriendReturn(String friend) {
         allFriends.add(friend);
-        adapter = new FriendsListAdapter(mContext, allFriends);
-        lvAllFriends.setAdapter(adapter);
-        lvAllFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Click", "Item clicked: " + position);
-            }
-        });
+        updateAdapter();
         allUsers.remove(friend);
         searchedUsers.remove(friend);
     }
@@ -192,38 +202,9 @@ public class ViewFriendsList extends ActionBarActivity implements SearchView.OnQ
         }
 
         for (String s : set) {
-            System.out.println("Removed " + s);
             allUsers.remove(s);
         }
         searchedUsers = allUsers;
         madapter = new UsersListAdapter(mContext, allUsers);
-    }
-
-    /**
-     * Called when the user submits the query. This could be due to a key press on the
-     * keyboard or due to pressing a submit button.
-     * The listener can override the standard behavior by returning true
-     * to indicate that it has handled the submit request. Otherwise return false to
-     * let the SearchView handle the submission by launching any associated intent.
-     *
-     * @param query the query text that is to be submitted
-     * @return true if the query has been handled by the listener, false to let the
-     * SearchView perform the default action.
-     */
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return true;
-    }
-
-    /**
-     * Called when the query text is changed by the user.
-     *
-     * @param newText the new content of the query text field.
-     * @return false if the SearchView should perform the default action of showing any
-     * suggestions if available, true if the action was handled by the listener.
-     */
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return true;
     }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="80dp" android:id="@+id/sample1">
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="#ff0000"
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="160dp"
+        android:weightSum="1"
+        android:layout_height="match_parent">
+        <!--What you want to show-->
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Delete"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:paddingLeft="7dp"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+    <!-- Bottom View End-->
+
+    <!-- Surface View Start -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/text2"
+            android:padding="5dp"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Text 2"/>
+        <!--What you want to show in SurfaceView-->
+    </LinearLayout>
+    <!-- Surface View End -->
+</com.daimajia.swipe.SwipeLayout>
