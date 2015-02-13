@@ -51,7 +51,7 @@
         </activity>
         <activity
             android:name=".ViewFriendsList"
-            android:label= "Friends List" >
+            android:label="Friends List" >
         </activity>
         <activity
             android:name=".MapsActivity"
@@ -64,7 +64,19 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value=" AIzaSyArDKN8FRsq6gUb99X6pYN9xn5pRUgFOhY" />
-    </application>
 
+        <activity
+            android:name=".ViewFriend"
+            android:label="@string/title_activity_view_friend" >
+        </activity>
+        <activity
+            android:name=".FriendsList"
+            android:label="@string/title_activity_friends_list" >
+        </activity>
+        <activity
+            android:name=".fViewFriend"
+            android:label="@string/title_activity_f_view_friend" >
+        </activity>
+    </application>
 
 </manifest>

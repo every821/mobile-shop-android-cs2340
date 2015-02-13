@@ -8,20 +8,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND"
         android:hint="Your friends" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"
-        android:text="Add friend!"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/VIEWFRIENDSLIST_LISTVIEW_FRIENDS"
         android:listSelector="@drawable/listselector"
-        android:layout_below="@id/VIEWFRIENDSLIST_BUTTON_ADDFRIEND"/>
+        android:layout_below="@id/VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND"/>
 
     <View style="@style/hdivider"
         android:layout_above="@id/VIEWFRIENDSLIST_LISTVIEW_FRIENDS"/>

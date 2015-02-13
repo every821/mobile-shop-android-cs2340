@@ -10,5 +10,13 @@
     <string name="title_activity_welcome">Welcome</string>
     <string name="title_activity_view_friends_list">ViewFriendsList</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_view_friend">ViewFriend</string>
+    <string name="title_activity_friends_list">FriendsList</string>
+    <string name="title_activity_f_view_friend">fViewFriend</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="VIEWFRIEND_STRING_FRIEND"></string>
+    <string name="VIEWFRIEND_STRING_EMAIL"></string>
+    <string name="VIEWFRIEND_STRING_RATING"></string>
+    <string name="VIEWFRIEND_STRING_REPORTCOUNT"></string>
 
 </resources>

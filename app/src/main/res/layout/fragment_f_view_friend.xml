@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.example.shoppingwithfriends.fViewFriend$PlaceholderFragment">
+
+    <TextView
+        android:id="@+id/VIEWFRIEND_TEXTVIEW_FRIEND"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/VIEWFRIEND_STRING_FRIEND"/>
+    <TextView
+        android:id="@+id/VIEWFRIEND_TEXTVIEW_EMAIL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/VIEWFRIEND_TEXTVIEW_FRIEND"
+        android:text="@string/VIEWFRIEND_STRING_EMAIL" />
+    <TextView
+        android:id="@+id/VIEWFRIEND_TEXTVIEW_RATING"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/VIEWFRIEND_TEXTVIEW_EMAIL"
+        android:text="@string/VIEWFRIEND_STRING_RATING" />
+
+    <TextView
+        android:id="@+id/VIEWFRIEND_TEXTVIEW_REPORTCOUNT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/VIEWFRIEND_TEXTVIEW_RATING"
+        android:text="@string/VIEWFRIEND_STRING_REPORTCOUNT" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/VIEWFRIEND_BUTTON_SEEPOSTS"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:text="See posted deals" />
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.shoppingwithfriends;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -28,7 +28,6 @@ public class ViewFriendsList extends ActionBarActivity {
 
     static String username, password;
     EditText etFindFriend;
-    Button btAddFriend;
     static Context mContext;
     static ListView lvAllFriends;
     static int completed = 0;
@@ -54,8 +53,6 @@ public class ViewFriendsList extends ActionBarActivity {
         searchedUsers = new ArrayList<String>();
 
         etFindFriend = (EditText) findViewById(R.id.VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND);
-        btAddFriend = (Button) findViewById(R.id.VIEWFRIENDSLIST_BUTTON_ADDFRIEND);
-        btAddFriend.setVisibility(View.GONE);
         lvAllFriends = (ListView) findViewById(R.id.VIEWFRIENDSLIST_LISTVIEW_FRIENDS);
 
         new GetFriendsTask(username, password).execute(getApplicationContext());
@@ -87,13 +84,6 @@ public class ViewFriendsList extends ActionBarActivity {
                     searchedFriends = SearchFriends.search(allFriends, s.toString());
                 }
                 updateAdapter();
-            }
-        });
-
-        btAddFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AddFriendTask(username, password, etFindFriend.getText().toString()).execute(getApplicationContext());
             }
         });
     }
@@ -175,11 +165,17 @@ public class ViewFriendsList extends ActionBarActivity {
                 if (nadapter.isOpen(position)) {
                     new RemoveFriendTask(username, password, searchedFriends.get(position)).execute(mContext);
                 } else {
-                    Toast.makeText(mContext, "Friend: " + searchedFriends.get(position), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, fViewFriend.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("password", password);
+                    intent.putExtra("friend", searchedFriends.get(position));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
                 }
             }
         });
     }
+
 
     public static void onAddFriendReturn(String friend) {
         allFriends.add(friend);
