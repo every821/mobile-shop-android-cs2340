@@ -72,6 +72,4 @@ public class FriendsListAdapter extends ArrayAdapter<String> implements SwipeLay
     public int getCount(){
         return userslist.size();
     }
-
-
 }

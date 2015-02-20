@@ -29,7 +29,6 @@ public class Register extends Activity {
     private Button btRegister, btCancel;
     private NinePatchDrawable etError;
     private HashMap<String, String> hm;
-    private MyDB mydb;
     public static String username = "", password = "", name = "";
     public static int color = Color.BLACK;
 
@@ -37,8 +36,6 @@ public class Register extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mydb =  new MyDB(this);
-        mydb.open();
         Log.e("initial call", "initial call");
         etError = (NinePatchDrawable) getResources().getDrawable(R.drawable.apptheme_textfield_activated_holo_light);
         etName = (EditText) findViewById(R.id.REGISTER_EDITTEXT_NAME);

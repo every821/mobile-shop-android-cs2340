@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context="com.example.shoppingwithfriends.PostSale">
+
+    <EditText
+        android:layout_margin="5dp"
+        android:id="@+id/POSTSALE_EDITTEXT_ITEMNAME"
+        android:hint="Item name"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_margin="5dp"
+        android:id="@+id/POSTSALE_EDITTEXT_LOCATION"
+        android:hint="Location"
+        android:layout_below="@id/POSTSALE_EDITTEXT_ITEMNAME"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/POSTSALE_EDITTEXT_ITEMNAME"
+        android:id="@+id/POSTSALE_CHECKBOX_GPS"
+        android:text="GPS"/>
+
+    <EditText
+        android:layout_margin="5dp"
+        android:id="@+id/POSTSALE_EDITTEXT_PRICE"
+        android:hint="Price"
+        android:layout_below="@id/POSTSALE_EDITTEXT_LOCATION"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Include photo"
+        android:id="@+id/POSTSALE_CHECKBOX_INCLUDEPHOTO"
+        android:layout_below="@id/POSTSALE_EDITTEXT_PRICE"
+        android:layout_alignLeft="@id/POSTSALE_EDITTEXT_PRICE"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:id="@+id/POSTSALE_IMAGEVIEW_ITEMIMAGE"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_action_camera"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_below="@id/POSTSALE_CHECKBOX_INCLUDEPHOTO" />
+
+    <LinearLayout
+        android:id="@+id/POSTSALE_LINEARLAYOUT_BUTTONSLAYOUT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/POSTSALE_CHECKBOX_INCLUDEPHOTO">
+        <Button
+            android:text="Post"
+            android:id="@+id/POSTSALE_BUTTON_POST"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/POSTSALE_BUTTON_CANCEL"/>
+
+        </LinearLayout>
+
+
+</RelativeLayout>

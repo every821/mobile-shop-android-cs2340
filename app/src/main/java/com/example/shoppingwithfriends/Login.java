@@ -68,7 +68,6 @@ public class Login extends Activity {
                 new LoginTask(etUsername.getText().toString(), etPassword.getText().toString())
                         .execute(Login.this.getApplicationContext());
             }
-
         });
         btCancel.setOnClickListener(new OnClickListener() {
 

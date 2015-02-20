@@ -25,6 +25,11 @@ public class GetUsersTask extends AsyncTask<Context, Void, Integer> {
         this.password = password;
     }
 
+    /**
+     * Connects to ythogh.com and gets all users in the database
+     * @param params passes in getApplicationContext() from calling Activity
+     * @return Result code from php request
+     */
     @Override
     protected Integer doInBackground(Context... params) {
         mContext = params[0];
@@ -65,6 +70,10 @@ public class GetUsersTask extends AsyncTask<Context, Void, Integer> {
         }
     }
 
+    /**
+     * Updates uses-list with returned users' names
+     * @param result Result code from php request
+     */
     @Override
     protected void onPostExecute(Integer result) {
         super.onPostExecute(result);

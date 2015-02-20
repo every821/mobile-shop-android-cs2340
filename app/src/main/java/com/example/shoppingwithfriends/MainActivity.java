@@ -46,7 +46,10 @@ public class MainActivity extends ActionBarActivity {
         ivPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Post", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), PostSale.class);
+                i.putExtra("username", username);
+                i.putExtra("password", password);
+                startActivity(i);
             }
         });
         ivShare.setOnClickListener(new View.OnClickListener() {

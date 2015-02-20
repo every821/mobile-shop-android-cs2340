@@ -140,6 +140,7 @@ public class ViewFriendsList extends ActionBarActivity {
     }
 
     /**
+     * Adds all friends to the friends-list adapter
      * @param arr Resulting list of friends returned from server
      */
     public static void onGetFriendsReturn(ArrayList<String> arr) {
@@ -149,6 +150,10 @@ public class ViewFriendsList extends ActionBarActivity {
         completed = 1;
     }
 
+    /**
+     * Removes friend from friends-list and adds to users-list
+     * @param friend The friend that was removed
+     */
     public static void onRemoveFriendReturn(String friend) {
         allUsers.add(friend);
         allFriends.remove(friend);
@@ -156,6 +161,10 @@ public class ViewFriendsList extends ActionBarActivity {
         updateAdapter();
     }
 
+    /**
+     * Updates the friends-list and users-list adapter on each add/remove task
+     * Updates the onClickListener to allow deleting a friend or viewing his page
+     */
     private static void updateAdapter() {
         nadapter = new GridViewAdapter(mContext, searchedFriends);
         lvAllFriends.setAdapter(nadapter);
@@ -176,7 +185,10 @@ public class ViewFriendsList extends ActionBarActivity {
         });
     }
 
-
+    /**
+     * Adds friend to friends-list and removes from users-list
+     * @param friend The friend that was added
+     */
     public static void onAddFriendReturn(String friend) {
         allFriends.add(friend);
         updateAdapter();
@@ -184,6 +196,10 @@ public class ViewFriendsList extends ActionBarActivity {
         searchedUsers.remove(friend);
     }
 
+    /**
+     * Returns an array of all users not on the friends-list
+     * @param arr All the users not on the friends-list
+     */
     public static void onGetUsersReturn(ArrayList<String> arr) {
         allUsers = arr;
         while (completed != 1);

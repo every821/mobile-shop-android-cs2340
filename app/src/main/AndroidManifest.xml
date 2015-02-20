@@ -13,6 +13,9 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
 
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
@@ -64,18 +67,13 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value=" AIzaSyArDKN8FRsq6gUb99X6pYN9xn5pRUgFOhY" />
-
-        <activity
-            android:name=".ViewFriend"
-            android:label="@string/title_activity_view_friend" >
-        </activity>
-        <activity
-            android:name=".FriendsList"
-            android:label="@string/title_activity_friends_list" >
-        </activity>
         <activity
             android:name=".fViewFriend"
             android:label="@string/title_activity_f_view_friend" >
+        </activity>
+        <activity
+            android:name=".PostSale"
+            android:label="Post Sale" >
         </activity>
     </application>
 

@@ -21,6 +21,11 @@ public class RemoveFriendTask extends AsyncTask<Context, Void, Integer> {
         this.friend = friend;
     }
 
+    /**
+     * Connects to ythogh.com and removes 'friend' from 'username' friends-list
+     * @param params passes in getApplicationContext() from calling Activity
+     * @return Result code from php request
+     */
     @Override
     protected Integer doInBackground(Context... params) {
         mContext = params[0];
@@ -55,6 +60,10 @@ public class RemoveFriendTask extends AsyncTask<Context, Void, Integer> {
         }
     }
 
+    /**
+     * Updates friends-list and users-list with returned friends' names
+     * @param result Result code from php request
+     */
     @Override
     protected void onPostExecute(Integer result) {
         super.onPostExecute(result);
