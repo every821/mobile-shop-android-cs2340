@@ -19,5 +19,6 @@
     <string name="VIEWFRIEND_STRING_RATING"></string>
     <string name="VIEWFRIEND_STRING_REPORTCOUNT"></string>
     <string name="title_activity_post_sale">PostSale</string>
+    <string name="title_activity_browse_sales">BrowseSales</string>
 
 </resources>

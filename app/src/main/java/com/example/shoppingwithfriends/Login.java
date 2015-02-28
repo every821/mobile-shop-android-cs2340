@@ -65,7 +65,7 @@ public class Login extends Activity {
 
             @Override
             public void onClick(View v) {
-                new LoginTask(etUsername.getText().toString(), etPassword.getText().toString())
+                new LoginTask(etUsername.getText().toString().trim(), etPassword.getText().toString())
                         .execute(Login.this.getApplicationContext());
             }
         });

@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
     static Context mContext;
     GridLayout gl;
     GridView gv;
-    ImageView ivPost, ivShare, ivProfile, ivFriends;
+    ImageView ivPost, ivBrowse, ivProfile, ivFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
         username = extras.getString("username");
         password = extras.getString("password");
         ivPost = (ImageView) findViewById(R.id.MAIN_IMAGEVIEW_POST);
-        ivShare = (ImageView) findViewById(R.id.MAIN_IMAGEVIEW_SHARE);
+        ivBrowse = (ImageView) findViewById(R.id.MAIN_IMAGEVIEW_BROWSE);
         ivProfile = (ImageView) findViewById(R.id.MAIN_IMAGEVIEW_PROFILE);
         ivFriends = (ImageView) findViewById(R.id.MAIN_IMAGEVIEW_FRIENDS);
         ivPost.setOnClickListener(new View.OnClickListener() {
@@ -52,10 +52,13 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(i);
             }
         });
-        ivShare.setOnClickListener(new View.OnClickListener() {
+        ivBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Share", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), BrowseSales.class);
+                i.putExtra("username", username);
+                i.putExtra("password", password);
+                startActivity(i);
             }
         });
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +74,6 @@ public class MainActivity extends ActionBarActivity {
                 i.putExtra("username", username);
                 i.putExtra("password", password);
                 startActivity(i);
-                Toast.makeText(mContext, "Friends", Toast.LENGTH_SHORT).show();
             }
         });
 

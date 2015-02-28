@@ -1,5 +1,7 @@
 package com.example.shoppingwithfriends;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -20,6 +22,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -40,7 +42,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -68,7 +72,6 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
     Bitmap bmp;
     File photo;
     String imageFilename;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,19 +121,8 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                        imageFilename = "JPEG_" + "itemPic" + "_";
-                        File storageDir = Environment.getExternalStoragePublicDirectory(
-                                Environment.DIRECTORY_PICTURES);
-                        File image = File.createTempFile(imageFilename, ".jpg", storageDir);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
-                        imageFilename = image.getAbsolutePath();
-                        startActivityForResult(takePictureIntent, 1);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (cbIncludePhoto.isChecked() && photo != null) {
+                    new PostSaleTask().execute();
                 }
             }
         });
@@ -164,9 +156,8 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         ivItemImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 0);
+                CustomDialogClass cdd = new CustomDialogClass(PostSale.this, R.style.DialogSlideAnim);
+                cdd.show();
             }
         });
 
@@ -180,8 +171,13 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         if (resultCode == RESULT_OK) {
+            int width, height, newWidth, newHeight;
+            float scaleWidth, scaleHeight;
+            Matrix matrix;
+            String[] fs;
+            String newFilePath;
             switch (requestCode) {
-                case 0:
+                case 0: // choose photo
                     Uri selectedImage = imageReturnedIntent.getData();
                     String[] filePathColumn = { MediaStore.Images.Media.DATA };
                     Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null,
@@ -199,21 +195,21 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
                         e.printStackTrace();
                     }
                     photo = new File(filePath);
-                    int width = bmp.getWidth();
-                    int height = bmp.getHeight();
-                    int newWidth = 200;
-                    int newHeight = 200;
+                    width = bmp.getWidth();
+                    height = bmp.getHeight();
+                    newWidth = 200;
+                    newHeight = 200;
 
-                    float scaleWidth = ((float) newWidth) / width;
-                    float scaleHeight = ((float) newHeight) / height;
+                    scaleWidth = ((float) newWidth) / width;
+                    scaleHeight = ((float) newHeight) / height;
 
-                    Matrix matrix = new Matrix();
+                    matrix = new Matrix();
                     matrix.postScale(scaleWidth, scaleHeight);
                     matrix.postRotate(0);
 
                     bmp = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
-                    String[] fs = filePath.split(".jpg");
-                    String newFilePath = fs[0] + "_compressed.jpg";
+                    fs = filePath.split(".jpg");
+                    newFilePath = fs[0] + "_compressed.jpg";
                     try {
                         FileOutputStream out = new FileOutputStream(newFilePath);
                         photo = new File(newFilePath);
@@ -225,7 +221,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
                     ivItemImage.setImageBitmap(bmp);
                     ivItemImage.requestLayout();
                     break;
-                case 1:
+                case 1: // take photo
                     //Bundle extras = imageReturnedIntent.getExtras();
                     //bmp = (Bitmap) extras.get("data");
                     try {
@@ -233,17 +229,43 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
                         bmp = BitmapFactory.decodeFile(imageFilename);
                         int o = resolveBitmapOrientation(new File(imageFilename));
                         bmp = applyOrientation(bmp, o);
+                        width = bmp.getWidth();
+                        height = bmp.getHeight();
+                        newWidth = 200;
+                        newHeight = 200;
+
+                        scaleWidth = ((float) newWidth) / width;
+                        scaleHeight = ((float) newHeight) / height;
+
+                        matrix = new Matrix();
+                        matrix.postScale(scaleWidth, scaleHeight);
+                        matrix.postRotate(0);
+
+                        bmp = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
+                        fs = photo.getAbsolutePath().split(".jpg");
+                        newFilePath = fs[0] + "_compressed.jpg";
+                        try {
+                            FileOutputStream out = new FileOutputStream(newFilePath);
+                            photo = new File(newFilePath);
+                            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                            out.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ivItemImage.setImageBitmap(bmp);
+                        ivItemImage.requestLayout();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                     ivItemImage.setImageBitmap(bmp);
                     ivItemImage.requestLayout();
                     break;
             }
 
         } else {
-            Toast.makeText(getApplicationContext(), "Could not change profile picture",
-                    Toast.LENGTH_LONG).show();;
+            //Toast.makeText(getApplicationContext(), "Could not change profile picture",
+            //        Toast.LENGTH_LONG).show();;
         }
     }
 
@@ -339,26 +361,23 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    private class GetLocationTask extends AsyncTask <Context, Void, Boolean>{
+    public void onPostSaleReturn() {
+        finish();
+    }
 
+    private class GetLocationTask extends AsyncTask <Context, Void, Boolean>{
         String location;
         String address;
         Context mContext;
-
-
         public GetLocationTask(Location loc) {
             this.location = loc.getLatitude() + ", " + loc.getLongitude();
         }
-
-
         /**
          * @param params The parameters of the task.
          * @return A result, defined by the subclass of this task.
@@ -420,4 +439,213 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
             System.out.println(myLocation.latitude +", " + myLocation.longitude);
         }
     }
+
+    private class UploadImageTask extends AsyncTask<String, Void, Boolean> {
+        File photo;
+        HttpURLConnection conn;
+
+        public UploadImageTask(File file) {
+            this.photo = file;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... itemname) {
+            String iname = itemname[0];
+            return uploadPhoto(iname);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                onPostSaleReturn();
+            }
+        }
+
+        private boolean uploadPhoto(String itemname) {
+            String urlString = "http://ythogh.com/shopwf/photos/upload_photo.php";
+            String Tag = "UPLOAD";
+            String lineEnd = "\r\n";
+            String twoHyphens = "--";
+            String boundary = "*****";
+            String item = etItemName.getText().toString();
+            String location = etLocation.getText().toString();
+            String price = etPrice.getText().toString();
+            String uploadFileName = String.format("%s_%s_%s_%s", username, item, location, price);
+            try {
+                FileInputStream fileInputStream = new FileInputStream(this.photo);
+                URL url = new URL(urlString);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setUseCaches(false);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("Content-Type",
+                        "multipart/form-data;boundary=" + boundary);
+                DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+                dos.writeBytes(twoHyphens + boundary + lineEnd);
+                dos.writeBytes("Content-Disposition: post-data; name=uploaded_file;filename="
+                        + uploadFileName + "" + lineEnd);
+                System.out.println(uploadFileName);
+                dos.writeBytes(lineEnd);
+                Log.e(Tag, "Headers are written");
+
+                int bytesAvailable = fileInputStream.available();
+                int maxBufferSize = 1000;
+                byte[] buffer = new byte[bytesAvailable];
+                int bytesRead = fileInputStream.read(buffer, 0, bytesAvailable);
+                while (bytesRead > 0) {
+                    dos.write(buffer, 0, bytesAvailable);
+                    bytesAvailable = fileInputStream.available();
+                    bytesAvailable = Math.min(bytesAvailable, maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer, 0, bytesAvailable);
+                }
+                dos.writeBytes(lineEnd);
+                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                Log.e(Tag, "File is written");
+                fileInputStream.close();
+                dos.flush();
+                dos.close();
+            } catch (Exception ex) {
+                Log.e(Tag, "error: " + ex.getMessage(), ex);
+            }
+            try {
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn
+                        .getInputStream()));
+                String line;
+                boolean b = false;
+                while ((line = rd.readLine()) != null) {
+                    Log.e("Dialoge Box", "Message: " + line);
+                    b = line.equals("uploaded");
+                }
+                rd.close();
+                return b;
+            } catch (IOException ioex) {
+                Log.e("MediaPlayer", "error: " + ioex.getMessage(), ioex);
+                return false;
+            }
+        }
+    }
+
+    private class CustomDialogClass extends Dialog implements View.OnClickListener{
+
+        public Activity c;
+        public Context mContext;
+        public Dialog d;
+        public Button btTake, btChoose, btCancel;
+
+        public CustomDialogClass(Activity a) {
+            super(a);
+            this.c = a;
+        }
+
+        public CustomDialogClass(Context context, int theme) {
+            super(context, theme);
+            this.mContext = context;
+        }
+
+        public CustomDialogClass(Activity context, int theme) {
+            super(context, theme);
+            this.c = context;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.custom_dialog_post);
+            btTake = (Button) findViewById(R.id.CUSTOMDIALOGPOST_BUTTON_TAKEPHOTO);
+            btChoose = (Button) findViewById(R.id.CUSTOMDIALOGPOST_BUTTON_CHOOSEPHOTO);
+            btCancel = (Button) findViewById(R.id.CUSTOMDIALOGPOST_BUTTON_CANCEL);
+            btTake.setOnClickListener(this);
+            btChoose.setOnClickListener(this);
+            btCancel.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()) {
+                case R.id.CUSTOMDIALOGPOST_BUTTON_TAKEPHOTO:
+                    try {
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(c.getPackageManager()) != null) {
+                            imageFilename = "JPEG_" + "itemPic" + "_";
+                            File storageDir = Environment.getExternalStoragePublicDirectory(
+                                    Environment.DIRECTORY_PICTURES);
+                            File image = File.createTempFile(imageFilename, ".jpg", storageDir);
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
+                            imageFilename = image.getAbsolutePath();
+                            c.startActivityForResult(takePictureIntent, 1);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case R.id.CUSTOMDIALOGPOST_BUTTON_CHOOSEPHOTO:
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    c.startActivityForResult(photoPickerIntent, 0);
+                    break;
+                case R.id.CUSTOMDIALOGPOST_BUTTON_CANCEL:
+                    break;
+                default:
+                    break;
+            }
+            dismiss();
+        }
+    }
+
+    private class PostSaleTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+                HttpURLConnection conn = null;
+                URL url = null;
+                String item = etItemName.getText().toString();
+                String location = etLocation.getText().toString();
+                String price = etPrice.getText().toString();
+                String query = String.format("username=%s&item=%s&location=%s&price=%s", username, item, location, price);
+                try {
+                    url = new URL("http://ythogh.com/shopwf/post_sale.php");
+                    System.out.println(url.toString() + "?" + query);
+                    String agent = "Applet";
+                    String type = "application/x-www-form-urlencoded";
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("User-Agent", agent);
+                    conn.setRequestProperty("Content-Type", type);
+                    conn.setRequestProperty("Content-Length", "" + query.length());
+                    OutputStream out = conn.getOutputStream();
+                    out.write(query.getBytes());
+                    System.out.println(conn.getResponseCode());
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputLine = "";
+                    while ((inputLine = in.readLine()) != null) {
+                        System.out.println("Result: " + inputLine);
+                    }
+                    System.out.println(conn.getResponseMessage());
+                    conn.disconnect();
+                    out.close();
+                    System.out.println("POSTED");
+                    return true;
+                } catch (Exception e) {
+                    System.out.println("PROBLEM");
+                    conn.disconnect();
+                    e.printStackTrace();
+                    return false;
+                }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                new UploadImageTask(photo).execute(etItemName.getText().toString());
+            }
+        }
+    }
+
 }

@@ -24,15 +24,15 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/share"
-        android:id="@+id/MAIN_IMAGEVIEW_SHARE"
+        android:id="@+id/MAIN_IMAGEVIEW_BROWSE"
         android:contentDescription="Share" />
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Share"
         android:gravity="center"
-        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_SHARE"
-        android:layout_below="@id/MAIN_IMAGEVIEW_SHARE"/>
+        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_BROWSE"
+        android:layout_below="@id/MAIN_IMAGEVIEW_BROWSE"/>
 
     <ImageView
         android:alpha="1"
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="Profile"
         android:gravity="center"
-        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_SHARE"
+        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_BROWSE"
         android:layout_above="@id/MAIN_IMAGEVIEW_PROFILE"/>
 
     <TextView

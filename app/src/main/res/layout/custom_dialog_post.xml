@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/CUSTOMDIALOGPOST_BUTTON_TAKEPHOTO"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:text="Take a new photo"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CUSTOMDIALOGPOST_BUTTON_CHOOSEPHOTO"
+        android:layout_below="@id/CUSTOMDIALOGPOST_BUTTON_TAKEPHOTO"
+        android:layout_centerHorizontal="true"
+        android:text="Choose a photo from library"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CUSTOMDIALOGPOST_BUTTON_CANCEL"
+        android:layout_below="@id/CUSTOMDIALOGPOST_BUTTON_CHOOSEPHOTO"
+        android:layout_centerHorizontal="true"
+        android:text="Cancel"/>
+
+</RelativeLayout>
