@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,8 +22,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpStatus;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class ViewFriendsList extends ActionBarActivity {
@@ -81,7 +91,7 @@ public class ViewFriendsList extends ActionBarActivity {
                 if (s.toString().trim().length() == 0) {
                     searchedFriends = allFriends;
                 } else {
-                    searchedFriends = SearchFriends.search(allFriends, s.toString());
+                    searchedFriends = new SearchFriends().search(allFriends, s.toString());
                 }
                 updateAdapter();
             }
@@ -143,7 +153,7 @@ public class ViewFriendsList extends ActionBarActivity {
      * Adds all friends to the friends-list adapter
      * @param arr Resulting list of friends returned from server
      */
-    public static void onGetFriendsReturn(ArrayList<String> arr) {
+    private void onGetFriendsReturn(ArrayList<String> arr) {
         allFriends = arr;
         searchedFriends = arr;
         updateAdapter();
@@ -154,7 +164,7 @@ public class ViewFriendsList extends ActionBarActivity {
      * Removes friend from friends-list and adds to users-list
      * @param friend The friend that was removed
      */
-    public static void onRemoveFriendReturn(String friend) {
+    private void onRemoveFriendReturn(String friend) {
         allUsers.add(friend);
         allFriends.remove(friend);
         searchedFriends.remove(friend);
@@ -165,7 +175,7 @@ public class ViewFriendsList extends ActionBarActivity {
      * Updates the friends-list and users-list adapter on each add/remove task
      * Updates the onClickListener to allow deleting a friend or viewing his page
      */
-    private static void updateAdapter() {
+    private void updateAdapter() {
         nadapter = new GridViewAdapter(mContext, searchedFriends);
         lvAllFriends.setAdapter(nadapter);
         lvAllFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -189,7 +199,7 @@ public class ViewFriendsList extends ActionBarActivity {
      * Adds friend to friends-list and removes from users-list
      * @param friend The friend that was added
      */
-    public static void onAddFriendReturn(String friend) {
+    private void onAddFriendReturn(String friend) {
         allFriends.add(friend);
         updateAdapter();
         allUsers.remove(friend);
@@ -200,7 +210,7 @@ public class ViewFriendsList extends ActionBarActivity {
      * Returns an array of all users not on the friends-list
      * @param arr All the users not on the friends-list
      */
-    public static void onGetUsersReturn(ArrayList<String> arr) {
+    private void onGetUsersReturn(ArrayList<String> arr) {
         allUsers = arr;
         while (completed != 1);
         Set<String> set = new HashSet<String>();
@@ -218,5 +228,295 @@ public class ViewFriendsList extends ActionBarActivity {
         }
         searchedUsers = allUsers;
         madapter = new UsersListAdapter(mContext, allUsers);
+    }
+
+    private class SearchFriends {
+
+        /**
+         * @param items The objects to search
+         * @param query The search parameter
+         * @return The filtered objects
+         */
+        public ArrayList<String> search(ArrayList<String> items, String query) {
+            query = query.toLowerCase(Locale.ENGLISH);
+            ArrayList<String> results = new ArrayList<String>();
+            for (String item : items) {
+                if ((item != null) && item.toLowerCase(Locale.ENGLISH).contains(query)) {
+                    results.add(item);
+                }
+            }
+            return results;
+        }
+    }
+
+    private class GetUsersTask extends AsyncTask<Context, Void, Integer> {
+
+        private String username, password, friend;
+        private Context mContext;
+        public ArrayList<String> arrlist;
+
+        public GetUsersTask(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        /**
+         * Connects to ythogh.com and gets all users in the database
+         * @param params passes in getApplicationContext() from calling Activity
+         * @return Result code from php request
+         */
+        @Override
+        protected Integer doInBackground(Context... params) {
+            mContext = params[0];
+            arrlist = new ArrayList<String>();
+            HttpURLConnection conn = null;
+            URL url = null;
+            int response = 400;
+            String query = String.format("username=%s&password=%s", username, password);
+            try {
+                url = new URL("http://ythogh.com/shopwf/get_users.php");
+                String agent = "Applet";
+                String type = "application/x-www-form-urlencoded";
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("User-Agent", agent);
+                conn.setRequestProperty("Content-Type", type);
+                conn.setRequestProperty("Content-Length", "" + query.length());
+                OutputStream out = conn.getOutputStream();
+                out.write(query.getBytes());
+                response = conn.getResponseCode();
+                System.out.println(response);
+                String inputLine = "";
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((inputLine = in.readLine())!= null) {
+                    arrlist.add(inputLine);
+                    Log.e("Friend", inputLine);
+                }
+                conn.disconnect();
+                out.close();
+                return response;
+            } catch (Exception e) {
+                conn.disconnect();
+                Log.e("Login", "Exception when logging in: " + response);
+                e.printStackTrace();
+                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+            }
+        }
+
+        /**
+         * Updates uses-list with returned users' names
+         * @param result Result code from php request
+         */
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            System.out.println("result: " + result);
+            if (result == HttpStatus.SC_ACCEPTED) {
+                onGetUsersReturn(arrlist);
+            } else {
+                Toast.makeText(mContext, "Problem occurred!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    private class GetFriendsTask extends AsyncTask<Context, Void, Integer> {
+
+        private String username, password, friend;
+        private Context mContext;
+        public ArrayList<String> arrlist;
+
+        public GetFriendsTask(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        /**
+         * Connects to ythogh.com and requests friends of 'username'
+         * @param params passes in getApplicationContext() from calling Activity
+         * @return Result code from php request
+         */
+        @Override
+        protected Integer doInBackground(Context... params) {
+            mContext = params[0];
+            arrlist = new ArrayList<String>();
+            HttpURLConnection conn = null;
+            URL url = null;
+            int response = 400;
+            String query = String.format("username=%s&password=%s", username, password);
+            try {
+                url = new URL("http://ythogh.com/shopwf/get_friends.php");
+                String agent = "Applet";
+                String type = "application/x-www-form-urlencoded";
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("User-Agent", agent);
+                conn.setRequestProperty("Content-Type", type);
+                conn.setRequestProperty("Content-Length", "" + query.length());
+                OutputStream out = conn.getOutputStream();
+                out.write(query.getBytes());
+                response = conn.getResponseCode();
+                System.out.println(response);
+                String inputLine = "";
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((inputLine = in.readLine())!= null) {
+                    arrlist.add(inputLine);
+                    Log.e("Friend", inputLine);
+                }
+                conn.disconnect();
+                out.close();
+                return response;
+            } catch (Exception e) {
+                conn.disconnect();
+                Log.e("Login", "Exception when logging in: " + response);
+                e.printStackTrace();
+                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+            }
+        }
+
+        /**
+         * Updates friends-list with returned friends' names
+         * @param result Result code from php request
+         */
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            System.out.println("result: " + result);
+            if (result == HttpStatus.SC_ACCEPTED) {
+                onGetFriendsReturn(arrlist);
+            } else {
+                Toast.makeText(mContext, "Problem occurred!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    private class AddFriendTask extends AsyncTask<Context, Void, Integer> {
+
+        private String username, password, friend;
+        private Context mContext;
+
+        public AddFriendTask(String username, String password, String friend) {
+            this.friend = friend;
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        protected Integer doInBackground(Context... params) {
+            mContext = params[0];
+            HttpURLConnection conn = null;
+            URL url = null;
+            int response = 400;
+            String query = String.format("username=%s&password=%s&friend=%s", username, password, friend);
+            try {
+                url = new URL("http://ythogh.com/shopwf/add_friend.php");
+                String agent = "Applet";
+                String type = "application/x-www-form-urlencoded";
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("User-Agent", agent);
+                conn.setRequestProperty("Content-Type", type);
+                conn.setRequestProperty("Content-Length", "" + query.length());
+                OutputStream out = conn.getOutputStream();
+                out.write(query.getBytes());
+                response = conn.getResponseCode();
+                conn.disconnect();
+                out.close();
+                System.out.println(response);
+                System.out.println(HttpStatus.SC_ACCEPTED);
+                return response;
+            } catch (Exception e) {
+                conn.disconnect();
+                Log.e("Login", "Exception when logging in: " + response);
+                e.printStackTrace();
+                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            System.out.println("result: " + result);
+            if (result == HttpStatus.SC_ACCEPTED) {
+                Toast.makeText(mContext, "Friend added!", Toast.LENGTH_SHORT).show();
+                onAddFriendReturn(friend);
+            } else {
+                Toast.makeText(mContext, "Problem occurred!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    private class RemoveFriendTask extends AsyncTask<Context, Void, Integer> {
+
+        private String username, password, friend;
+        private Context mContext;
+
+        public RemoveFriendTask(String username, String password, String friend) {
+            this.username = username;
+            this.password = password;
+            this.friend = friend;
+        }
+
+        /**
+         * Connects to ythogh.com and removes 'friend' from 'username' friends-list
+         * @param params passes in getApplicationContext() from calling Activity
+         * @return Result code from php request
+         */
+        @Override
+        protected Integer doInBackground(Context... params) {
+            mContext = params[0];
+            HttpURLConnection conn = null;
+            URL url = null;
+            int response = 400;
+            String query = String.format("username=%s&password=%s&friend=%s", username, password, friend);
+            try {
+                url = new URL("http://ythogh.com/shopwf/remove_friend.php");
+                String agent = "Applet";
+                String type = "application/x-www-form-urlencoded";
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("User-Agent", agent);
+                conn.setRequestProperty("Content-Type", type);
+                conn.setRequestProperty("Content-Length", "" + query.length());
+                OutputStream out = conn.getOutputStream();
+                out.write(query.getBytes());
+                response = conn.getResponseCode();
+                conn.disconnect();
+                out.close();
+                System.out.println(response);
+                System.out.println(HttpStatus.SC_ACCEPTED);
+                return response;
+            } catch (Exception e) {
+                conn.disconnect();
+                Log.e("Remove friend", "Error " + response);
+                e.printStackTrace();
+                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+            }
+        }
+
+        /**
+         * Updates friends-list and users-list with returned friends' names
+         * @param result Result code from php request
+         */
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            System.out.println("result: " + result);
+            if (result == HttpStatus.SC_ACCEPTED) {
+                onRemoveFriendReturn(friend);
+            } else {
+
+            }
+        }
     }
 }
