@@ -210,6 +210,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
                     bmp = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
                     fs = filePath.split(".jpg");
                     newFilePath = fs[0] + "_compressed.jpg";
+                    System.out.println(newFilePath);
                     try {
                         FileOutputStream out = new FileOutputStream(newFilePath);
                         photo = new File(newFilePath);
@@ -467,10 +468,10 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
             String lineEnd = "\r\n";
             String twoHyphens = "--";
             String boundary = "*****";
-            String item = etItemName.getText().toString();
-            String location = etLocation.getText().toString();
-            String price = etPrice.getText().toString();
-            String uploadFileName = String.format("%s_%s_%s_%s", username, item, location, price);
+            String item = etItemName.getText().toString().trim().replace(" ","").replace(".","");
+            String location = etLocation.getText().toString().trim().replace(" ","").replace(".","");
+            String price = etPrice.getText().toString().trim().replace(" ","").replace(".","");
+            String uploadFileName = String.format("%s_%s_%s_%s", username.replace(" ","").replace(".",""), item, location, price);
             try {
                 FileInputStream fileInputStream = new FileInputStream(this.photo);
                 URL url = new URL(urlString);

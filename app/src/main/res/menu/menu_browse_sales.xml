@@ -2,6 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.shoppingwithfriends.BrowseSales">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_filter"
+        android:title="Filter"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom"
+        android:actionLayout="@drawable/abc_textfield_search_material"/>
+
 </menu>

@@ -26,10 +26,11 @@
         android:src="@drawable/share"
         android:id="@+id/MAIN_IMAGEVIEW_BROWSE"
         android:contentDescription="Share" />
+
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Share"
+        android:text="Browse"
         android:gravity="center"
         android:layout_alignLeft="@id/MAIN_IMAGEVIEW_BROWSE"
         android:layout_below="@id/MAIN_IMAGEVIEW_BROWSE"/>
@@ -43,6 +44,7 @@
         android:contentDescription="Friends"
         android:src="@drawable/friends"
         android:id="@+id/MAIN_IMAGEVIEW_FRIENDS"/>
+
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
         android:contentDescription="Profile"
         android:layout_marginRight="10dp"
         android:id="@+id/MAIN_IMAGEVIEW_PROFILE"/>
+
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
