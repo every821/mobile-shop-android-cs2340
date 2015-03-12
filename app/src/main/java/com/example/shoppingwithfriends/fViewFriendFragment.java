@@ -103,7 +103,7 @@ public class fViewFriendFragment extends Fragment implements View.OnClickListene
             hm = new HashMap<String, String>();
             String query = String.format("username=%s&password=%s&friend=%s", username, password, friend);
             try {
-                url = new URL("http://ythogh.com/shopwf/get_friend_info.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/get_friend_info.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();

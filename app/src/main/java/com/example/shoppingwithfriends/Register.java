@@ -169,7 +169,7 @@ public class Register extends Activity {
             int response = 400;
             String query = String.format("name=%s&username=%s&password=%s", name, username, password);
             try {
-                url = new URL("http://ythogh.com/shopwf/register.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/register.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();

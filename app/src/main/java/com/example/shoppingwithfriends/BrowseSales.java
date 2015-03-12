@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -50,6 +51,26 @@ public class BrowseSales extends ActionBarActivity {
     Double initialMin = 0.00, initialMax = 100.00;
     String mQuery = "";
 
+    /**
+     * Dispatch onPause() to fragments.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    /**
+     * Call this when your activity is done and should be closed.  The
+     * ActivityResult is propagated back to whoever launched you via
+     * onActivityResult().
+     */
+    @Override
+    public void finish() {
+        new UpdatePriceThresholdTask(username).execute(initialMin, initialMax);
+        System.out.println("Finish!");
+        super.finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +79,18 @@ public class BrowseSales extends ActionBarActivity {
         username = extras.getString("username");
         lvBrowseSales = (GridView) findViewById(R.id.BROWSESALES_LISTVIEW_DISPLAYLIST);
         allSales = new ArrayList<SaleItem>();
-        new GetAllSalesTask(username).execute();
+        if (extras.containsKey("min") && extras.containsKey("max")) {
+            initialMin = extras.getDouble("min");
+            initialMax = extras.getDouble("max");
+            allSales = MainActivity.arr;
+            System.out.println("Size: " + allSales.size());
+            for (int i = 0; i <  MainActivity.arr.size(); i++) {
+                System.out.println(i);
+                new DownloadImageTask(allSales.get(i), i).execute();
+            }
+        } else {
+            new GetAllSalesTask(username).execute();
+        }
     }
 
     private void onGetAllSalesReturn() {
@@ -81,9 +113,74 @@ public class BrowseSales extends ActionBarActivity {
             CustomDialogClass cdd = new CustomDialogClass(BrowseSales.this, R.style.DialogSlideAnim);
             cdd.show();
             return true;
+        } else if (id == R.id.action_update) {
+            allSales = new ArrayList<SaleItem>();
+            new GetAllSalesTask(username).execute();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private class UpdatePriceThresholdTask extends AsyncTask<Double, Void, Boolean> {
+
+        String username;
+
+        public UpdatePriceThresholdTask(String username) {
+            this.username = username;
+        }
+
+        /**
+         * @param params passes in getApplicationContext() from calling Activity
+         * @return Result code from php request
+         */
+        @Override
+        protected Boolean doInBackground(Double... params) {
+            double low = params[0];
+            double high = params[1];
+            HttpURLConnection conn = null;
+            URL url = null;
+            int response = 400;
+            DecimalFormat df = new DecimalFormat("###.00");
+            String mLow = df.format(low);
+            String mHigh = df.format(high);
+            String query = String.format("username=%s&low=%s&high=%s", username, mLow, mHigh);
+            System.out.println(query);
+            try {
+                url = new URL("http://ythogh.com/shopwf/scripts/update_price_threshold.php");
+                String agent = "Applet";
+                String type = "application/x-www-form-urlencoded";
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("User-Agent", agent);
+                conn.setRequestProperty("Content-Type", type);
+                conn.setRequestProperty("Content-Length", "" + query.length());
+                OutputStream out = conn.getOutputStream();
+                out.write(query.getBytes());
+                response = conn.getResponseCode();
+                System.out.println(response);
+                String inputLine = "";
+                conn.disconnect();
+                out.close();
+                System.out.println("Done");
+                return true;
+            } catch (Exception e) {
+                conn.disconnect();
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        /**
+         * Updates friends-list with returned friends' names
+         * @param result Result code from php request
+         */
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+        }
     }
 
     private class CustomListAdapter extends ArrayAdapter<String> {
@@ -155,7 +252,7 @@ public class BrowseSales extends ActionBarActivity {
             int response = 400;
             String query = String.format("username=%s", username);
             try {
-                url = new URL("http://ythogh.com/shopwf/get_sales.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/get_sales.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();
@@ -183,8 +280,9 @@ public class BrowseSales extends ActionBarActivity {
                     jObj = jArr.getJSONObject(i);
                     mItem = new SaleItem(jObj.getString("username"), jObj.getString("item"),
                             jObj.getString("location"), jObj.getString("price"));
-                    allSales.add(mItem);
-                    new DownloadImageTask(mItem, i).execute();
+                        allSales.add(mItem);
+                        new DownloadImageTask(mItem, allSales.size() - 1).execute();
+
                 }
                 conn.disconnect();
                 out.close();
@@ -204,13 +302,12 @@ public class BrowseSales extends ActionBarActivity {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
         }
-
     }
 
-    class DownloadImageTask extends AsyncTask<Void, Void, Bitmap> {
+    private class DownloadImageTask extends AsyncTask<Void, Void, Bitmap> {
         ImageView bmp;
 
-        final String urlPhotoBase = "http://www.ythogh.com/shopwf/photos/";
+        final String urlPhotoBase = "http://www.ythogh.com/shopwf/scripts/photos/";
         SaleItem mItem;
         int position;
 
@@ -351,15 +448,19 @@ public class BrowseSales extends ActionBarActivity {
         }
 
         public ArrayList<SaleItem> execute(String query, Double min, Double max) {
-            // sort by price
             ArrayList<SaleItem> mArr = new ArrayList<SaleItem>();
-            for (int i = 0; i < arr.size(); i++) {
-                if ((Double.parseDouble(arr.get(i).getPrice()) >= min) && (Double.parseDouble(arr.get(i).getPrice()) <= max) && (arr.get(i).getItem().contains(query)))  {
-                    mArr.add(arr.get(i));
+            try {
+                for (int i = 0; i < arr.size(); i++) {
+                    if ((Double.parseDouble(arr.get(i).getPrice()) >= min) && (Double.parseDouble(arr.get(i).getPrice()) <= max) && (arr.get(i).getItem().contains(query))) {
+                        mArr.add(arr.get(i));
+                    }
                 }
+                System.out.println(mArr.size());
+                return mArr;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return arr;
             }
-            System.out.println(mArr.size());
-            return mArr;
         }
 
         public ArrayList<SaleItem> execute(Double min, Double max) {

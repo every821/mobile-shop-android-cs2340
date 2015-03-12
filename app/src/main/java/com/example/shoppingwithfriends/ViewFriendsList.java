@@ -36,17 +36,16 @@ import java.util.Set;
 
 public class ViewFriendsList extends ActionBarActivity {
 
-    static String username, password;
+    String username, password;
     EditText etFindFriend;
-    static Context mContext;
-    static ListView lvAllFriends;
-    static int completed = 0;
-    static GridViewAdapter nadapter;
-    static FriendsListAdapter adapter;
-    static UsersListAdapter madapter;
-    static ArrayList<String> allFriends, searchedFriends;
-    static ArrayList<String> allUsers, searchedUsers;
-    static View viewWithFocus;
+    Context mContext;
+    ListView lvAllFriends;
+    int completed = 0;
+    GridViewAdapter nadapter;
+    FriendsListAdapter adapter;
+    UsersListAdapter madapter;
+    ArrayList<String> allFriends, searchedFriends;
+    ArrayList<String> allUsers, searchedUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +113,6 @@ public class ViewFriendsList extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_FRIENDSLIST_ICON_ADD) {
-            Toast.makeText(getApplicationContext(), "Hit!", Toast.LENGTH_SHORT).show();
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Find a user");
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -249,7 +246,7 @@ public class ViewFriendsList extends ActionBarActivity {
         }
     }
 
-    private class GetUsersTask extends AsyncTask<Context, Void, Integer> {
+    private class GetUsersTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password, friend;
         private Context mContext;
@@ -266,7 +263,7 @@ public class ViewFriendsList extends ActionBarActivity {
          * @return Result code from php request
          */
         @Override
-        protected Integer doInBackground(Context... params) {
+        protected Boolean doInBackground(Context... params) {
             mContext = params[0];
             arrlist = new ArrayList<String>();
             HttpURLConnection conn = null;
@@ -274,7 +271,7 @@ public class ViewFriendsList extends ActionBarActivity {
             int response = 400;
             String query = String.format("username=%s&password=%s", username, password);
             try {
-                url = new URL("http://ythogh.com/shopwf/get_users.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/get_users.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();
@@ -296,12 +293,12 @@ public class ViewFriendsList extends ActionBarActivity {
                 }
                 conn.disconnect();
                 out.close();
-                return response;
+                return true;
             } catch (Exception e) {
                 conn.disconnect();
                 Log.e("Login", "Exception when logging in: " + response);
                 e.printStackTrace();
-                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+                return false;
             }
         }
 
@@ -310,10 +307,9 @@ public class ViewFriendsList extends ActionBarActivity {
          * @param result Result code from php request
          */
         @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(Boolean result) {
             System.out.println("result: " + result);
-            if (result == HttpStatus.SC_ACCEPTED) {
+            if (result) {
                 onGetUsersReturn(arrlist);
             } else {
                 Toast.makeText(mContext, "Problem occurred!", Toast.LENGTH_SHORT).show();
@@ -322,7 +318,7 @@ public class ViewFriendsList extends ActionBarActivity {
 
     }
 
-    private class GetFriendsTask extends AsyncTask<Context, Void, Integer> {
+    private class GetFriendsTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password, friend;
         private Context mContext;
@@ -339,7 +335,7 @@ public class ViewFriendsList extends ActionBarActivity {
          * @return Result code from php request
          */
         @Override
-        protected Integer doInBackground(Context... params) {
+        protected Boolean doInBackground(Context... params) {
             mContext = params[0];
             arrlist = new ArrayList<String>();
             HttpURLConnection conn = null;
@@ -347,7 +343,7 @@ public class ViewFriendsList extends ActionBarActivity {
             int response = 400;
             String query = String.format("username=%s&password=%s", username, password);
             try {
-                url = new URL("http://ythogh.com/shopwf/get_friends.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/get_friends.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();
@@ -369,12 +365,12 @@ public class ViewFriendsList extends ActionBarActivity {
                 }
                 conn.disconnect();
                 out.close();
-                return response;
+                return true;
             } catch (Exception e) {
                 conn.disconnect();
                 Log.e("Login", "Exception when logging in: " + response);
                 e.printStackTrace();
-                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+                return false;
             }
         }
 
@@ -383,16 +379,14 @@ public class ViewFriendsList extends ActionBarActivity {
          * @param result Result code from php request
          */
         @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(Boolean result) {
             System.out.println("result: " + result);
-            if (result == HttpStatus.SC_ACCEPTED) {
+            if (result) {
                 onGetFriendsReturn(arrlist);
             } else {
                 Toast.makeText(mContext, "Problem occurred!", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     private class AddFriendTask extends AsyncTask<Context, Void, Integer> {
@@ -414,7 +408,7 @@ public class ViewFriendsList extends ActionBarActivity {
             int response = 400;
             String query = String.format("username=%s&password=%s&friend=%s", username, password, friend);
             try {
-                url = new URL("http://ythogh.com/shopwf/add_friend.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/add_friend.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();
@@ -478,7 +472,7 @@ public class ViewFriendsList extends ActionBarActivity {
             int response = 400;
             String query = String.format("username=%s&password=%s&friend=%s", username, password, friend);
             try {
-                url = new URL("http://ythogh.com/shopwf/remove_friend.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/remove_friend.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();

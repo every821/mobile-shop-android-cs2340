@@ -25,10 +25,9 @@
         android:id="@+id/seekbar_placeholder"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/CUSTOMDIALOGBROWSEFILTER_TEXTVIEW_PRICE"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/CUSTOMDIALOGBROWSEFILTER_TEXTVIEW_PRICE"
-        android:layout_alignBottom="@id/CUSTOMDIALOGBROWSEFILTER_TEXTVIEW_PRICE" />
+        android:layout_alignTop="@id/CUSTOMDIALOGBROWSEFILTER_TEXTVIEW_PRICE" />
 
 </RelativeLayout>

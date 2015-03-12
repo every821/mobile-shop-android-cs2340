@@ -9,10 +9,9 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_search"
-        android:title="Search"
+        android:id="@+id/action_update"
+        android:title="Update"
         android:orderInCategory="200"
-        app:showAsAction="ifRoom"
-        android:actionLayout="@drawable/abc_textfield_search_material"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

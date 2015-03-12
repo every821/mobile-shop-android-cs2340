@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-import org.apache.http.HttpStatus;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,17 +27,18 @@ public class Login extends Activity {
 
     private Button btLogin, btCancel;
     private EditText etUsername, etPassword;
-    private static TextView tvInvalidLogin;
-    public static String username, password;
+    private TextView tvInvalidLogin;
+    private String username, password;
+    public static User user;
 
     /**
-     *
      * @param savedInstanceState Loads the state from the previous time the activity was started
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         btLogin = (Button) findViewById(R.id.LOGIN_BUTTON_LOGIN);
         btCancel = (Button) findViewById(R.id.LOGIN_BUTTON_CANCEL);
         etUsername = (EditText) findViewById(R.id.LOGIN_EDITTEXT_USERNAME);
@@ -72,8 +73,9 @@ public class Login extends Activity {
 
             @Override
             public void onClick(View v) {
-                new LoginTask(etUsername.getText().toString().trim(), etPassword.getText().toString())
-                        .execute(Login.this.getApplicationContext());
+                username = etUsername.getText().toString().trim();
+                password = etPassword.getText().toString().trim();
+                new LoginTask(username, password).execute(Login.this.getApplicationContext());
             }
         });
         btCancel.setOnClickListener(new OnClickListener() {
@@ -85,7 +87,10 @@ public class Login extends Activity {
             }
 
         });
+    }
 
+    public static User getUser() {
+        return user;
     }
 
     @Override
@@ -103,35 +108,23 @@ public class Login extends Activity {
     /**
      * Displays login error message on login fail
      */
-    public static void onLoginFail(Context mContext, Integer result) {
-        int r = (int) result;
-        String msg = "";
-        switch (r) {
-            case HttpStatus.SC_SERVICE_UNAVAILABLE:
-                msg = "Cannot connect to server";
-                break;
-            case HttpStatus.SC_UNAUTHORIZED:
-                msg = "Invalid credentials!";
-                break;
-            default:
-                msg = "An unexpected error has occured";
-                break;
-        }
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    public void onLoginFail() {
+        System.out.println("Problem");
+        Toast.makeText(getApplicationContext(), "Problem logging in", Toast.LENGTH_SHORT).show();
         tvInvalidLogin.setVisibility(View.VISIBLE);
     }
 
     /**
      * Displays login success message on login success
      */
-    public static void onLoginSuccess() {
-        tvInvalidLogin.setVisibility(View.GONE);
+    public void onLoginSuccess() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
-    private class LoginTask extends AsyncTask<Context, Void, Integer> {
+    private class LoginTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password;
-        private Context mContext;
 
         public LoginTask(String username, String password) {
             this.username = username;
@@ -139,15 +132,14 @@ public class Login extends Activity {
         }
 
         @Override
-        protected Integer doInBackground(Context... params) {
-            mContext = params[0];
+        protected Boolean doInBackground(Context... params) {
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;
             String query = String.format("username=%s&password=%s", username, password);
             System.out.println(query);
             try {
-                url = new URL("http://ythogh.com/shopwf/verify_login.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/verify_login.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();
@@ -159,34 +151,32 @@ public class Login extends Activity {
                 conn.setRequestProperty("Content-Length", "" + query.length());
                 OutputStream out = conn.getOutputStream();
                 out.write(query.getBytes());
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine = "";
+                user = new User(username, password);
+                user.setLow(in.readLine());
+                user.setHigh(in.readLine());
+                System.out.println(user.getLow() + "," + user.getHigh());
                 response = conn.getResponseCode();
                 conn.disconnect();
                 out.close();
-                return response;
+                return true;
             } catch (Exception e) {
                 conn.disconnect();
                 Log.e("Login", "Exception when logging in: " + response);
                 e.printStackTrace();
-                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+                return false;
             }
         }
 
         @Override
-        protected void onPostExecute(Integer result) {
+        protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if (result == HttpStatus.SC_ACCEPTED) {
-                Login.onLoginSuccess();
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("username", username);
-                intent.putExtra("password", password);
-                mContext.startActivity(intent);
+            if (result) {
+                onLoginSuccess();
             } else {
-                Login.onLoginFail(mContext, result);
-                System.out.println("Problem");
+                onLoginFail();
             }
         }
-
     }
-
 }

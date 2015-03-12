@@ -395,7 +395,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
             String query = String.format("location=%s", location);
             String str = "";
             try {
-                url = new URL("http://ythogh.com/shopwf/json_request.php");
+                url = new URL("http://ythogh.com/shopwf/scripts/json_request.php");
                 String agent = "Applet";
                 String type = "application/x-www-form-urlencoded";
                 conn = (HttpURLConnection) url.openConnection();
@@ -463,7 +463,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         }
 
         private boolean uploadPhoto(String itemname) {
-            String urlString = "http://ythogh.com/shopwf/photos/upload_photo.php";
+            String urlString = "http://ythogh.com/shopwf/scripts/photos/upload_photo.php";
             String Tag = "UPLOAD";
             String lineEnd = "\r\n";
             String twoHyphens = "--";
@@ -608,7 +608,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
                 String price = etPrice.getText().toString();
                 String query = String.format("username=%s&item=%s&location=%s&price=%s", username, item, location, price);
                 try {
-                    url = new URL("http://ythogh.com/shopwf/post_sale.php");
+                    url = new URL("http://ythogh.com/shopwf/scripts/post_sale.php");
                     System.out.println(url.toString() + "?" + query);
                     String agent = "Applet";
                     String type = "application/x-www-form-urlencoded";
