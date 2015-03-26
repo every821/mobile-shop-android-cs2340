@@ -135,8 +135,8 @@ public class Login extends Activity {
         protected Boolean doInBackground(Context... params) {
             HttpURLConnection conn = null;
             URL url = null;
-            int response = 400;
-            String query = String.format("username=%s&password=%s", username, password);
+            int response = 9999;
+            String query = String.format("username=%s&password=%s&action=app", username, password);
             System.out.println(query);
             try {
                 url = new URL("http://ythogh.com/shopwf/scripts/verify_login.php");
@@ -151,11 +151,15 @@ public class Login extends Activity {
                 conn.setRequestProperty("Content-Length", "" + query.length());
                 OutputStream out = conn.getOutputStream();
                 out.write(query.getBytes());
+                response = conn.getResponseCode();
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String inputLine = "";
                 user = new User(username, password);
                 user.setLow(in.readLine());
                 user.setHigh(in.readLine());
+                if (user.getLow().equals("null")) {
+                    throw new Exception("Invalid credentials");
+                }
                 System.out.println(user.getLow() + "," + user.getHigh());
                 response = conn.getResponseCode();
                 conn.disconnect();

@@ -287,6 +287,8 @@ public class MainActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_map:
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("password", password);
                 startActivity(intent);
                 return true;
             default:

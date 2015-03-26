@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -121,9 +122,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cbIncludePhoto.isChecked() && photo != null) {
-                    new PostSaleTask().execute();
-                }
+                new PostSaleTask().execute();
             }
         });
 
@@ -354,17 +353,13 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_post_sale, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.menu_post_sale, menu);
+        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -457,9 +452,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if (result) {
-                onPostSaleReturn();
-            }
+            onPostSaleReturn();
         }
 
         private boolean uploadPhoto(String itemname) {
@@ -642,9 +635,17 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
 
         @Override
         protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
             if (result) {
-                new UploadImageTask(photo).execute(etItemName.getText().toString());
+                if (cbIncludePhoto.isChecked() && photo != null) {
+                    System.out.println("True, true");
+                    new UploadImageTask(photo).execute(etItemName.getText().toString());
+                } else {
+                    System.out.println("True, False");
+                    onPostSaleReturn();
+                }
+            } else {
+                System.out.println("False");
+                Toast.makeText(getApplicationContext(), "Problem posting this sale :(", Toast.LENGTH_SHORT).show();
             }
         }
     }

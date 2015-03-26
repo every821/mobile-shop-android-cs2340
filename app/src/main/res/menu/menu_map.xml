@@ -1,12 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.shoppingwithfriends.PostSale">
+    tools:context=".MapsActivity">
 
     <item
         android:id="@+id/action_post"
         android:title="Post"
         android:icon="@drawable/ic_action_map"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        android:orderInCategory="200"
+        app:showAsAction="always" />
 </menu>
