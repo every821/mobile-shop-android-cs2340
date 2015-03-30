@@ -24,16 +24,14 @@ import org.apache.http.HttpStatus;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 
+@SuppressWarnings("ALL")
 public class Register extends Activity {
 
     private EditText etName, etPassword;
     private static EditText etUsername;
-    private TextView tvRegister;
-    private Button btRegister, btCancel;
-    private NinePatchDrawable etError;
-    private HashMap<String, String> hm;
+    // --Commented out by Inspection (3/29/2015 8:14 PM):private TextView tvRegister;
+    // --Commented out by Inspection (3/29/2015 8:14 PM):private HashMap<String, String> hm;
     public static String username = "", password = "", name = "";
     public static int color = Color.BLACK;
 
@@ -42,7 +40,7 @@ public class Register extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Log.e("initial call", "initial call");
-        etError = (NinePatchDrawable) getResources().getDrawable(R.drawable.apptheme_textfield_activated_holo_light);
+        NinePatchDrawable etError = (NinePatchDrawable) getResources().getDrawable(R.drawable.apptheme_textfield_activated_holo_light);
         etName = (EditText) findViewById(R.id.REGISTER_EDITTEXT_NAME);
         etName.setBackgroundResource(R.drawable.edittext);
         etName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -92,8 +90,8 @@ public class Register extends Activity {
                 return true;
             }
         });
-        btRegister = (Button) findViewById(R.id.REGISTER_BUTTON_REGISTER);
-        btCancel = (Button) findViewById(R.id.REGISTER_BUTTON_CANCEL);
+        Button btRegister = (Button) findViewById(R.id.REGISTER_BUTTON_REGISTER);
+        Button btCancel = (Button) findViewById(R.id.REGISTER_BUTTON_CANCEL);
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +127,7 @@ public class Register extends Activity {
     }
 
     public static void onRegisterFail(Context mContext, Integer result) {
-        int r = (int) result;
+        int r = result;
         String msg = "";
         switch (result) {
             case HttpStatus.SC_CONFLICT:
@@ -148,6 +146,13 @@ public class Register extends Activity {
         }
         Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
         etUsername.setTextColor(Color.RED);
+    }
+
+    private void onRegisterSuccess() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        startActivity(intent);
     }
 
     private class RegisterTask extends AsyncTask<Context, Void, Integer> {
@@ -199,12 +204,8 @@ public class Register extends Activity {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             System.out.println("result: " + result);
-            if (result == HttpStatus.SC_ACCEPTED) {
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("username", username);
-                intent.putExtra("password", password);
-                mContext.startActivity(intent);
+            if (result == HttpStatus.SC_OK) {
+                onRegisterSuccess();
             } else {
                 Register.onRegisterFail(mContext, result);
                 System.out.println("Problem");

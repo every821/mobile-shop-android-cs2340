@@ -36,6 +36,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class MapsActivity extends FragmentActivity  implements ConnectionCallbacks,
         OnConnectionFailedListener, OnClickListener, GoogleMap.OnMapClickListener {
 
@@ -45,8 +46,6 @@ public class MapsActivity extends FragmentActivity  implements ConnectionCallbac
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
     private LatLng myLocation;
-    private Location mLastLocation;
-    private Marker me;
     private ArrayList<SaleItem> arr;
     String username;
 
@@ -94,11 +93,11 @@ public class MapsActivity extends FragmentActivity  implements ConnectionCallbac
      */
     @Override
     public void onConnected(Bundle connectionHint) {
-       mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             myLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             if (map != null) {
-                me = map.addMarker(new MarkerOptions().position(myLocation).title("Me")
+                Marker me = map.addMarker(new MarkerOptions().position(myLocation).title("Me")
                         .snippet("You are here.")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
@@ -228,7 +227,7 @@ public class MapsActivity extends FragmentActivity  implements ConnectionCallbac
 
         public GetAllSalesTask(String username) {
             this.username = username;
-            arr = new ArrayList<SaleItem>();
+            arr = new ArrayList<>();
         }
 
         /**

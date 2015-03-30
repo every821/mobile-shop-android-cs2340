@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="45dp"
@@ -15,42 +16,45 @@
         android:layout_alignParentLeft="true"
         android:contentDescription="Post"
         android:alpha="1"
-        android:id="@+id/MAIN_IMAGEVIEW_POST"/>
+        android:id="@+id/MAIN_IMAGEVIEW_POST"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <ImageView
         android:alpha="1"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/share"
         android:id="@+id/MAIN_IMAGEVIEW_BROWSE"
-        android:contentDescription="Share" />
+        android:contentDescription="Share"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Browse"
+        android:text="@string/Browse"
         android:gravity="center"
-        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_BROWSE"
-        android:layout_below="@id/MAIN_IMAGEVIEW_BROWSE"/>
+        android:layout_alignStart="@id/MAIN_IMAGEVIEW_BROWSE"
+        android:layout_below="@id/MAIN_IMAGEVIEW_BROWSE"
+        tools:ignore="HardcodedText" />
 
     <ImageView
         android:alpha="1"
         android:layout_width="150dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_height="150dp"
-        android:contentDescription="Friends"
+        android:contentDescription="@string/Friends"
         android:src="@drawable/friends"
         android:id="@+id/MAIN_IMAGEVIEW_FRIENDS"/>
 
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Friends"
+        android:text="@string/Friends"
         android:gravity="center"
-        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_FRIENDS"
+        android:layout_alignStart="@id/MAIN_IMAGEVIEW_FRIENDS"
         android:layout_above="@id/MAIN_IMAGEVIEW_FRIENDS"/>
 
     <ImageView
@@ -58,26 +62,27 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:src="@drawable/profile"
-        android:contentDescription="Profile"
-        android:layout_marginRight="10dp"
-        android:id="@+id/MAIN_IMAGEVIEW_PROFILE"/>
+        android:contentDescription="@string/Profile"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/MAIN_IMAGEVIEW_PROFILE"
+        tools:ignore="RtlHardcoded" />
 
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Profile"
+        android:text="@string/Profile"
         android:gravity="center"
-        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_BROWSE"
+        android:layout_alignStart="@id/MAIN_IMAGEVIEW_BROWSE"
         android:layout_above="@id/MAIN_IMAGEVIEW_PROFILE"/>
 
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_alignLeft="@id/MAIN_IMAGEVIEW_FRIENDS"
-        android:text="Post"
+        android:layout_alignStart="@id/MAIN_IMAGEVIEW_FRIENDS"
+        android:text="@string/Post"
         android:layout_below="@id/MAIN_IMAGEVIEW_POST"/>
 
 

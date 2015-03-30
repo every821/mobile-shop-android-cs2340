@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 public class MainActivity extends ActionBarActivity {
 
     String username, password;
@@ -41,12 +42,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        user = Login.getUser();
-
         mContext = getApplicationContext();
-        username = user.getUsername();
-        password = user.getPassword();
+        username = getIntent().getExtras().getString("username");
+        password = getIntent().getExtras().getString("password");
 
         new GetFriendsTask(username, password).execute();
 
@@ -119,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
 
         public GetAllSalesTask(String username) {
             this.username = username;
-            arr = new ArrayList<SaleItem>();
+            arr = new ArrayList<>();
         }
 
         /**
@@ -206,7 +204,7 @@ public class MainActivity extends ActionBarActivity {
 
     private class GetFriendsTask extends AsyncTask<Context, Void, Boolean> {
 
-        private String username, password, friend;
+        private String username, password; // --Commented out by Inspection (3/29/2015 8:13 PM):friend;
         private Context mContext;
 
         public GetFriendsTask(String username, String password) {
@@ -221,7 +219,7 @@ public class MainActivity extends ActionBarActivity {
          */
         @Override
         protected Boolean doInBackground(Context... params) {
-            friends = new HashSet<String>();
+            friends = new HashSet<>();
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;

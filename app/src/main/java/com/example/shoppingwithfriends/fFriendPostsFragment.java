@@ -12,10 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+@SuppressWarnings("ALL")
 public class fFriendPostsFragment extends Fragment implements View.OnClickListener {
 
-    FragmentActivity listener;
-    String username, password, friend;
+    // --Commented out by Inspection (3/29/2015 8:12 PM):FragmentActivity listener;
+    // --Commented out by Inspection (3/29/2015 8:12 PM):String username, password, friend;
     Bundle extras;
 
     @Override

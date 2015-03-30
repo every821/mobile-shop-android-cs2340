@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
     android:id="@+id/LOGIN_RELATIVELAYOUT_RL1"
-    android:background="@color/gray">
+    android:background="@color/gray"
+    tools:ignore="Overdraw">
 
     <TextView
         android:textColor="@color/white"
@@ -13,7 +15,8 @@
         android:paddingTop="10dp"
         android:id="@+id/LOGIN_TEXTVIEW_LOGIN"
         android:gravity="center_horizontal"
-        android:text="Login"/>
+        android:text="Login"
+        tools:ignore="HardcodedText,SpUsage" />
 
     <View style="@style/hdivider"
         android:layout_width="fill_parent"
@@ -30,11 +33,12 @@
         <EditText
             android:id="@+id/LOGIN_EDITTEXT_USERNAME"
             android:layout_width="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
-            android:hint="Username" />
+            android:hint="Username"
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:layout_marginTop="15dp"
@@ -44,7 +48,8 @@
             android:layout_below="@id/LOGIN_EDITTEXT_USERNAME"
             android:layout_alignRight="@id/LOGIN_EDITTEXT_USERNAME"
             android:layout_alignLeft="@id/LOGIN_EDITTEXT_USERNAME"
-            android:hint="Password" />
+            android:hint="Password"
+            tools:ignore="HardcodedText,RtlHardcoded,TextFields" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,31 +63,29 @@
                 android:textColor="#FFFFFF"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/login_password"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/buttonshape"
-                android:text="Login"
-                android:layout_marginRight="5dp"/>
+                android:text="@string/IncludePhoto"
+                android:layout_marginEnd="5dp"
+                tools:ignore="ButtonStyle,RtlHardcoded" />
 
             <Button
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:background="@drawable/buttonshape"
                 android:textColor="#FFFFFF"
                 android:id="@+id/LOGIN_BUTTON_CANCEL"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/login_password"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
-                android:text="Cancel" />
+                android:text="@string/Cancel"
+                tools:ignore="ButtonOrder,ButtonStyle" />
         </LinearLayout>
     </RelativeLayout>
 
     <TextView
         android:id="@+id/LOGIN_TEXTVIEW_INVALIDLOGIN"
         android:layout_width="wrap_content"
-        android:text="Invalid login"
+        android:text="@string/Invalidlogin"
         android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_below="@id/LOGIN_RELATIVELAYOUT_RL2"/>

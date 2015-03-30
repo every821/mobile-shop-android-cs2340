@@ -8,5 +8,6 @@
         android:title="Post"
         android:icon="@drawable/ic_action_map"
         android:orderInCategory="200"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="HardcodedText" />
 </menu>

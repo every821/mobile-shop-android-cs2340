@@ -1,10 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="50dp"
-    android:background="@color/primary_material_light">
+    android:background="@color/primary_material_light"
+    tools:ignore="Overdraw">
 
     <Button
         style="@style/Base.Theme.AppCompat.Light"
@@ -13,8 +15,8 @@
         android:background="@drawable/buttonshape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_password"
-        android:text="Login" />
+        android:text="Login"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:textColor="#FFFFFF"
@@ -22,9 +24,8 @@
         android:id="@+id/WELCOME_BUTTON_REGISTER"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_password"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
-        android:text="Register" />
+        android:text="Register"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

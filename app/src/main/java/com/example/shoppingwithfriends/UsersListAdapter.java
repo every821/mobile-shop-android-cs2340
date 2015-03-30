@@ -1,5 +1,6 @@
 package com.example.shoppingwithfriends;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class UsersListAdapter extends ArrayAdapter<String> {
     private final Context context;
     //  private final String users[];
@@ -33,7 +35,7 @@ public class UsersListAdapter extends ArrayAdapter<String> {
         final int pos = position;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.users_list_item, parent, false);
+        @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.users_list_item, parent, false);
         TextView tvUsername = (TextView) rowView.findViewById(R.id.USERSLISTITEM_TEXTIEW_ITEM);
         ImageView ivAddView = (ImageView) rowView.findViewById(R.id.USERSLISTITEM_IMAGEVIEW_ADDORVIEW);
         ivAddView.setOnClickListener(new View.OnClickListener() {

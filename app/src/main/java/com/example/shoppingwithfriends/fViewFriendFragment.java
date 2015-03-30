@@ -24,14 +24,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+@SuppressWarnings("ALL")
 public class fViewFriendFragment extends Fragment implements View.OnClickListener {
 
-    FragmentActivity listener;
+    // --Commented out by Inspection (3/29/2015 8:12 PM):FragmentActivity listener;
     String username, password, friend, email, rating, report_count;
     Bundle extras;
     TextView tvFriend, tvEmail, tvRating, tvReportCount;
-    HashMap<String, String> hm;
-    static int nuevo = 0;
+    // --Commented out by Inspection (3/29/2015 8:12 PM):HashMap<String, String> hm;
 
     @Override
     public void onAttach(Activity activity) {
@@ -100,7 +100,7 @@ public class fViewFriendFragment extends Fragment implements View.OnClickListene
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;
-            hm = new HashMap<String, String>();
+            hm = new HashMap<>();
             String query = String.format("username=%s&password=%s&friend=%s", username, password, friend);
             try {
                 url = new URL("http://ythogh.com/shopwf/scripts/get_friend_info.php");

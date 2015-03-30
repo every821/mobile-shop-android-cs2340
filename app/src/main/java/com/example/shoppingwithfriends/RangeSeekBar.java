@@ -1,5 +1,6 @@
 package com.example.shoppingwithfriends;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +30,8 @@ import java.text.DecimalFormat;
  * @param <T>
  *            The Number type of the range values. One of Long, Double, Integer, Float, Short, Byte or BigDecimal.
  */
+@SuppressLint("ViewConstructor")
+@SuppressWarnings("ALL")
 public class RangeSeekBar<T extends Number> extends ImageView {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Bitmap thumbImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_normal);
@@ -46,7 +49,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private Thumb pressedThumb = null;
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;
-    private float minX = 0.0f, maxX = 287.0f, Y = -9.5f;
 
     /**
      * Default color of a {@link RangeSeekBar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.
@@ -58,17 +60,21 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      */
     public static final int INVALID_POINTER_ID = 255;
 
-    // Localized constants from MotionEvent for compatibility
-    // with API < 8 "Froyo".
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//    // Localized constants from MotionEvent for compatibility
+//    // with API < 8 "Froyo".
     public static final int ACTION_POINTER_UP = 0x6, ACTION_POINTER_INDEX_MASK = 0x0000ff00, ACTION_POINTER_INDEX_SHIFT = 8;
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
     private float mDownMotionX;
     private int mActivePointerId = INVALID_POINTER_ID;
 
-    /**
-     * On touch, this offset plus the scaled value from the position of the touch will form the progress value. Usually 0.
-     */
-    float mTouchProgressOffset;
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//    /**
+//     * On touch, this offset plus the scaled value from the position of the touch will form the progress value. Usually 0.
+//     */
+//    float mTouchProgressOffset;
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
     private int mScaledTouchSlop;
     private boolean mIsDragging;
@@ -98,40 +104,48 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         init();
     }
 
-    private final void init() {
+    private void init() {
         mScaledTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
-    public boolean isNotifyWhileDragging() {
-        return notifyWhileDragging;
-    }
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//    public boolean isNotifyWhileDragging() {
+//        return notifyWhileDragging;
+//    }
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
-    /**
-     * Should the widget notify the listener callback while the user is still dragging a thumb? Default is false.
-     *
-     * @param flag
-     */
-    public void setNotifyWhileDragging(boolean flag) {
-        this.notifyWhileDragging = flag;
-    }
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//    /**
+//     * Should the widget notify the listener callback while the user is still dragging a thumb? Default is false.
+//     *
+//     * @param flag
+//     */
+//    public void setNotifyWhileDragging(boolean flag) {
+//        this.notifyWhileDragging = flag;
+//    }
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
-    /**
-     * Returns the absolute minimum value of the range that has been set at construction time.
-     *
-     * @return The absolute minimum value of the range.
-     */
-    public T getAbsoluteMinValue() {
-        return absoluteMinValue;
-    }
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//    /**
+//     * Returns the absolute minimum value of the range that has been set at construction time.
+//     *
+//     * @return The absolute minimum value of the range.
+//     */
+//    public T getAbsoluteMinValue() {
+//        return absoluteMinValue;
+//    }
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
-    /**
-     * Returns the absolute maximum value of the range that has been set at construction time.
-     *
-     * @return The absolute maximum value of the range.
-     */
-    public T getAbsoluteMaxValue() {
-        return absoluteMaxValue;
-    }
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//    /**
+//     * Returns the absolute maximum value of the range that has been set at construction time.
+//     *
+//     * @return The absolute maximum value of the range.
+//     */
+//    public T getAbsoluteMaxValue() {
+//        return absoluteMaxValue;
+//    }
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
     /**
      * Returns the currently selected min value.
@@ -294,7 +308,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         return true;
     }
 
-    private final void onSecondaryPointerUp(MotionEvent ev) {
+    private void onSecondaryPointerUp(MotionEvent ev) {
         final int pointerIndex = (ev.getAction() & ACTION_POINTER_INDEX_MASK) >> ACTION_POINTER_INDEX_SHIFT;
 
         final int pointerId = ev.getPointerId(pointerIndex);
@@ -308,7 +322,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         }
     }
 
-    private final void trackTouchEvent(MotionEvent event) {
+    private void trackTouchEvent(MotionEvent event) {
         final int pointerIndex = event.findPointerIndex(mActivePointerId);
         final float x = event.getX(pointerIndex);
 
@@ -367,7 +381,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         super.onDraw(canvas);
 
         // draw seek bar background line
-        final RectF rect = new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
+        @SuppressLint("DrawAllocation") final RectF rect = new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
         paint.setStyle(Style.FILL);
         paint.setColor(Color.GRAY);
         paint.setAntiAlias(true);
@@ -424,12 +438,12 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private void drawThumb(float screenCoord, boolean pressed, Canvas canvas) {
         String str = "";
         if (Thumb.MIN.equals(pressedThumb)) {
-            minX = screenCoord - thumbHalfWidth;
+            float minX = screenCoord - thumbHalfWidth;
 
         } else {
-            maxX = screenCoord - thumbHalfWidth;
+            float maxX = screenCoord - thumbHalfWidth;
         }
-        Y = (float) ((0.5f * getHeight()) - thumbHalfHeight);
+        float y = (float) ((0.5f * getHeight()) - thumbHalfHeight);
 
         DecimalFormat df = new DecimalFormat("###0.00");
         Paint p = new Paint(Paint.LINEAR_TEXT_FLAG);
@@ -437,7 +451,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         p.setTextSize(16);
         str = "$" + df.format( (screenCoord - thumbHalfWidth) / 287.00 * 100.00);
         canvas.drawText(str, screenCoord - thumbHalfWidth, 20, p);
-        System.out.println(String.format("%s, %f, %f", str, screenCoord - thumbHalfWidth, Y));
+        System.out.println(String.format("%s, %f, %f", str, screenCoord - thumbHalfWidth, y));
         canvas.drawBitmap(pressed ? thumbPressedImage : thumbImage, screenCoord - thumbHalfWidth, (float) ((0.5f * getHeight()) - thumbHalfHeight), paint);
 
     }
@@ -574,7 +588,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      */
     private static enum Thumb {
         MIN, MAX
-    };
+    }
 
     /**
      * Utility enumaration used to convert between Numbers and doubles.
@@ -610,20 +624,21 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             throw new IllegalArgumentException("Number class '" + value.getClass().getName() + "' is not supported");
         }
 
+        @SuppressLint("UseValueOf")
         public Number toNumber(double value) {
             switch (this) {
                 case LONG:
-                    return new Long((long) value);
+                    return (long) value;
                 case DOUBLE:
                     return value;
                 case INTEGER:
-                    return new Integer((int) value);
+                    return (int) value;
                 case FLOAT:
                     return new Float(value);
                 case SHORT:
-                    return new Short((short) value);
+                    return (short) value;
                 case BYTE:
-                    return new Byte((byte) value);
+                    return (byte) value;
                 case BIG_DECIMAL:
                     return new BigDecimal(value);
             }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:rsb="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/CUSTOMDIALOGBROWSEFILTER_EDITTEXT_SEARCH"/>
+        android:id="@+id/CUSTOMDIALOGBROWSEFILTER_EDITTEXT_SEARCH"
+        rsb:ignore="LabelFor,TextFields" />
 
     <TextView
         android:layout_below="@id/CUSTOMDIALOGBROWSEFILTER_EDITTEXT_SEARCH"
@@ -18,7 +20,8 @@
         android:text="Price"
         android:textColor="@color/white"
         android:paddingRight="8dp"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        rsb:ignore="RtlHardcoded,RtlSymmetry" />
 
 
     <LinearLayout

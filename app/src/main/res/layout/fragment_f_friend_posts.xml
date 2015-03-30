@@ -16,6 +16,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:text="Return to user" />
+        android:text="Return to user"
+        tools:ignore="HardcodedText" />
 
 </RelativeLayout>

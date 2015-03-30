@@ -36,6 +36,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:text="See posted deals" />
+        android:text="See posted deals"
+        tools:ignore="HardcodedText" />
 
 </RelativeLayout>

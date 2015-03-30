@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="80dp" android:id="@+id/sample1">
     <!-- Bottom View Start-->
     <LinearLayout
@@ -18,7 +19,8 @@
             android:textColor="#ffffff"
             android:textSize="20dp"
             android:paddingLeft="7dp"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SpUsage" />
     </LinearLayout>
     <!-- Bottom View End-->
 
@@ -36,7 +38,8 @@
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Text 2"/>
+            android:text="Text 2"
+            tools:ignore="HardcodedText,SpUsage" />
         <!--What you want to show in SurfaceView-->
     </LinearLayout>
     <!-- Surface View End -->

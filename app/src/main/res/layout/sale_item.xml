@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/border_ui"
@@ -10,17 +11,19 @@
         android:layout_height="100dp"
         android:id="@+id/SALEITEM_IMAGEVIEW_ITEMIMAGE"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        tools:ignore="ContentDescription,RtlHardcoded" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_below="@id/SALEITEM_IMAGEVIEW_ITEMIMAGE"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:layout_alignRight="@id/SALEITEM_IMAGEVIEW_ITEMIMAGE"
-        android:layout_alignParentLeft="true"
+        android:layout_alignEnd="@id/SALEITEM_IMAGEVIEW_ITEMIMAGE"
+        android:layout_alignParentStart="true"
         android:text="Item name"
-        android:id="@+id/SALEITEM_TEXTVIEW_ITEMNAME"/>
+        android:id="@+id/SALEITEM_TEXTVIEW_ITEMNAME"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_alignRight="@id/SALEITEM_IMAGEVIEW_ITEMIMAGE"
@@ -30,6 +33,7 @@
         android:gravity="start"
         android:layout_alignParentLeft="true"
         android:text="Price"
-        android:id="@+id/SALEITEM_TEXTVIEW_PRICE"/>
+        android:id="@+id/SALEITEM_TEXTVIEW_PRICE"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
 </RelativeLayout>

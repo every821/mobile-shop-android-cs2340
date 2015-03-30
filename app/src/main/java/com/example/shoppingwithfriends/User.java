@@ -1,5 +1,6 @@
 package com.example.shoppingwithfriends;
 
+@SuppressWarnings("ALL")
 public class User {
 
     String username, password;
@@ -26,12 +27,16 @@ public class User {
         return high;
     }
 
-    public String getUsername() {
-        return username;
-    }
+// --Commented out by Inspection START (3/29/2015 8:14 PM):
+//    public String getUsername() {
+//        return username;
+//    }
+// --Commented out by Inspection STOP (3/29/2015 8:14 PM)
 
-    public String getPassword() {
-        return password;
-    }
+// --Commented out by Inspection START (3/29/2015 8:14 PM):
+//    public String getPassword() {
+//        return password;
+//    }
+// --Commented out by Inspection STOP (3/29/2015 8:14 PM)
 
 }

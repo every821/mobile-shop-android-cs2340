@@ -54,12 +54,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
+@SuppressWarnings("ALL")
 public class PostSale extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     static final int REQUEST_RESOLVE_ERROR = 1001;
     boolean mResolvingError = false;
-    String username, password;
+    String username, password; // --Commented out by Inspection (3/29/2015 8:13 PM):password;
     Context mContext;
     GoogleApiClient mGoogleApiClient;
     LatLng myLocation;
@@ -169,6 +170,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        //noinspection StatementWithEmptyBody
         if (resultCode == RESULT_OK) {
             int width, height, newWidth, newHeight;
             float scaleWidth, scaleHeight;
@@ -370,7 +372,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
     private class GetLocationTask extends AsyncTask <Context, Void, Boolean>{
         String location;
         String address;
-        Context mContext;
+        // --Commented out by Inspection (3/29/2015 8:13 PM):Context mContext;
         public GetLocationTask(Location loc) {
             this.location = loc.getLatitude() + ", " + loc.getLongitude();
         }
@@ -525,19 +527,23 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
     private class CustomDialogClass extends Dialog implements View.OnClickListener{
 
         public Activity c;
-        public Context mContext;
-        public Dialog d;
+        // --Commented out by Inspection (3/29/2015 8:13 PM):public Context mContext;
+        // --Commented out by Inspection (3/29/2015 8:13 PM):public Dialog d;
         public Button btTake, btChoose, btCancel;
 
-        public CustomDialogClass(Activity a) {
-            super(a);
-            this.c = a;
-        }
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//        public CustomDialogClass(Activity a) {
+//            super(a);
+//            this.c = a;
+//        }
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
-        public CustomDialogClass(Context context, int theme) {
-            super(context, theme);
-            this.mContext = context;
-        }
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//        public CustomDialogClass(Context context, int theme) {
+//            super(context, theme);
+//            this.mContext = context;
+//        }
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
         public CustomDialogClass(Activity context, int theme) {
             super(context, theme);

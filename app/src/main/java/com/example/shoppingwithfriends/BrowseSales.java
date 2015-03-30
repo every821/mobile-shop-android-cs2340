@@ -21,11 +21,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -41,6 +39,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
+@SuppressWarnings("ALL")
 public class BrowseSales extends ActionBarActivity {
 
     static ArrayList<SaleItem> allSales;
@@ -78,7 +77,7 @@ public class BrowseSales extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         username = extras.getString("username");
         lvBrowseSales = (GridView) findViewById(R.id.BROWSESALES_LISTVIEW_DISPLAYLIST);
-        allSales = new ArrayList<SaleItem>();
+        allSales = new ArrayList<>();
         if (extras.containsKey("min") && extras.containsKey("max")) {
             initialMin = extras.getDouble("min");
             initialMax = extras.getDouble("max");
@@ -114,7 +113,7 @@ public class BrowseSales extends ActionBarActivity {
             cdd.show();
             return true;
         } else if (id == R.id.action_update) {
-            allSales = new ArrayList<SaleItem>();
+            allSales = new ArrayList<>();
             new GetAllSalesTask(username).execute();
         }
 
@@ -305,7 +304,7 @@ public class BrowseSales extends ActionBarActivity {
     }
 
     private class DownloadImageTask extends AsyncTask<Void, Void, Bitmap> {
-        ImageView bmp;
+        // --Commented out by Inspection (3/29/2015 8:12 PM):ImageView bmp;
 
         final String urlPhotoBase = "http://www.ythogh.com/shopwf/scripts/photos/";
         SaleItem mItem;
@@ -348,14 +347,14 @@ public class BrowseSales extends ActionBarActivity {
 
     private class CustomDialogClass extends Dialog implements View.OnClickListener {
 
-        public Activity c;
-        public Context mContext;
-        public Button btTake, btChoose, btCancel;
-        public SeekBar sbPrice;
+        // --Commented out by Inspection (3/29/2015 8:12 PM):public Activity c;
+        // --Commented out by Inspection (3/29/2015 8:12 PM):public Context mContext;
+        // --Commented out by Inspection (3/29/2015 8:12 PM):public Button btTake, btChoose, btCancel;
+        // --Commented out by Inspection (3/29/2015 8:12 PM):public SeekBar sbPrice;
 
         public CustomDialogClass(Activity context, int theme) {
             super(context, theme);
-            this.c = context;
+            //this.c = context;
         }
 
         @Override
@@ -364,7 +363,7 @@ public class BrowseSales extends ActionBarActivity {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.custom_dialog_browse_filter);
 
-            final RangeSeekBar<Double> seekBar = new RangeSeekBar<Double>(0.00, 100.00, getApplicationContext());
+            final RangeSeekBar<Double> seekBar = new RangeSeekBar<>(0.00, 100.00, getApplicationContext());
             seekBar.setSelectedMinValue(initialMin);
             seekBar.setSelectedMaxValue(initialMax);
             seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Double>() {
@@ -448,7 +447,7 @@ public class BrowseSales extends ActionBarActivity {
         }
 
         public ArrayList<SaleItem> execute(String query, Double min, Double max) {
-            ArrayList<SaleItem> mArr = new ArrayList<SaleItem>();
+            ArrayList<SaleItem> mArr = new ArrayList<>();
             try {
                 for (int i = 0; i < arr.size(); i++) {
                     if ((Double.parseDouble(arr.get(i).getPrice()) >= min) && (Double.parseDouble(arr.get(i).getPrice()) <= max) && (arr.get(i).getItem().contains(query))) {

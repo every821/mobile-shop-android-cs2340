@@ -23,9 +23,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+@SuppressWarnings("ALL")
 public class Login extends Activity {
 
-    private Button btLogin, btCancel;
+    private Button btLogin;
     private EditText etUsername, etPassword;
     private TextView tvInvalidLogin;
     private String username, password;
@@ -40,7 +41,7 @@ public class Login extends Activity {
         setContentView(R.layout.activity_login);
 
         btLogin = (Button) findViewById(R.id.LOGIN_BUTTON_LOGIN);
-        btCancel = (Button) findViewById(R.id.LOGIN_BUTTON_CANCEL);
+        Button btCancel = (Button) findViewById(R.id.LOGIN_BUTTON_CANCEL);
         etUsername = (EditText) findViewById(R.id.LOGIN_EDITTEXT_USERNAME);
         etUsername.setBackgroundResource(R.drawable.edittext);
         etPassword = (EditText) findViewById(R.id.LOGIN_EDITTEXT_PASSWORD);
@@ -89,9 +90,11 @@ public class Login extends Activity {
         });
     }
 
-    public static User getUser() {
-        return user;
-    }
+// --Commented out by Inspection START (3/29/2015 8:13 PM):
+//    public static User getUser() {
+//        return user;
+//    }
+// --Commented out by Inspection STOP (3/29/2015 8:13 PM)
 
     @Override
     protected void onResume() {
@@ -122,7 +125,7 @@ public class Login extends Activity {
         startActivity(intent);
     }
 
-    private class LoginTask extends AsyncTask<Context, Void, Boolean> {
+    public class LoginTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password;
 
@@ -151,7 +154,7 @@ public class Login extends Activity {
                 conn.setRequestProperty("Content-Length", "" + query.length());
                 OutputStream out = conn.getOutputStream();
                 out.write(query.getBytes());
-                response = conn.getResponseCode();
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String inputLine = "";
                 user = new User(username, password);

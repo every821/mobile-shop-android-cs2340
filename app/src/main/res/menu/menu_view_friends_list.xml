@@ -8,6 +8,7 @@
         android:icon="@drawable/ic_action_add_person"
         android:actionLayout="@layout/friendslist_actionbar"
         android:orderInCategory="100"
-        app:showAsAction="always|never">
+        app:showAsAction="always|never"
+        tools:ignore="HardcodedText">
     </item>
 </menu>

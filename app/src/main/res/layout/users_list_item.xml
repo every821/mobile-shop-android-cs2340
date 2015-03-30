@@ -1,5 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,7 +11,8 @@
         android:layout_alignParentRight="true"
         android:paddingTop="5dp"
         android:visibility="gone"
-        android:src="@drawable/ic_action_add_person"/>
+        android:src="@drawable/ic_action_add_person"
+        tools:ignore="ContentDescription,RtlHardcoded" />
 
     <TextView
         android:layout_toLeftOf="@id/USERSLISTITEM_IMAGEVIEW_ADDORVIEW"
@@ -19,7 +21,8 @@
         android:padding="5dp"
         android:textSize="15dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        tools:ignore="RtlHardcoded,SpUsage" />
 
 </RelativeLayout>
 

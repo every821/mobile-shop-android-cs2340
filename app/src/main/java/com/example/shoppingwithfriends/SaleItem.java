@@ -2,6 +2,7 @@ package com.example.shoppingwithfriends;
 
 import android.graphics.Bitmap;
 
+@SuppressWarnings("ALL")
 public class SaleItem {
 
     String username, item, location, price;

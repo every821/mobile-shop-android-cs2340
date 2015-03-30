@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 public class ViewFriendsList extends ActionBarActivity {
 
     String username, password;
@@ -42,7 +43,7 @@ public class ViewFriendsList extends ActionBarActivity {
     ListView lvAllFriends;
     int completed = 0;
     GridViewAdapter nadapter;
-    FriendsListAdapter adapter;
+    // --Commented out by Inspection (3/29/2015 8:14 PM):FriendsListAdapter adapter;
     UsersListAdapter madapter;
     ArrayList<String> allFriends, searchedFriends;
     ArrayList<String> allUsers, searchedUsers;
@@ -56,10 +57,10 @@ public class ViewFriendsList extends ActionBarActivity {
         username = extras.getString("username");
         password = extras.getString("password");
 
-        allFriends = new ArrayList<String>();
-        searchedFriends = new ArrayList<String>();
-        allUsers = new ArrayList<String>();
-        searchedUsers = new ArrayList<String>();
+        allFriends = new ArrayList<>();
+        searchedFriends = new ArrayList<>();
+        allUsers = new ArrayList<>();
+        searchedUsers = new ArrayList<>();
 
         etFindFriend = (EditText) findViewById(R.id.VIEWFRIENDSLIST_EDITTEXT_ADDFRIEND);
         lvAllFriends = (ListView) findViewById(R.id.VIEWFRIENDSLIST_LISTVIEW_FRIENDS);
@@ -210,7 +211,7 @@ public class ViewFriendsList extends ActionBarActivity {
     private void onGetUsersReturn(ArrayList<String> arr) {
         allUsers = arr;
         while (completed != 1);
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         set.add(username);
         for (String friend : allFriends) {
             for (String user : allUsers) {
@@ -236,7 +237,7 @@ public class ViewFriendsList extends ActionBarActivity {
          */
         public ArrayList<String> search(ArrayList<String> items, String query) {
             query = query.toLowerCase(Locale.ENGLISH);
-            ArrayList<String> results = new ArrayList<String>();
+            ArrayList<String> results = new ArrayList<>();
             for (String item : items) {
                 if ((item != null) && item.toLowerCase(Locale.ENGLISH).contains(query)) {
                     results.add(item);
@@ -248,7 +249,7 @@ public class ViewFriendsList extends ActionBarActivity {
 
     private class GetUsersTask extends AsyncTask<Context, Void, Boolean> {
 
-        private String username, password, friend;
+        private String username, password; // --Commented out by Inspection (3/29/2015 8:14 PM):friend;
         private Context mContext;
         public ArrayList<String> arrlist;
 
@@ -265,7 +266,7 @@ public class ViewFriendsList extends ActionBarActivity {
         @Override
         protected Boolean doInBackground(Context... params) {
             mContext = params[0];
-            arrlist = new ArrayList<String>();
+            arrlist = new ArrayList<>();
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;
@@ -320,7 +321,7 @@ public class ViewFriendsList extends ActionBarActivity {
 
     private class GetFriendsTask extends AsyncTask<Context, Void, Boolean> {
 
-        private String username, password, friend;
+        private String username, password; // --Commented out by Inspection (3/29/2015 8:14 PM):friend;
         private Context mContext;
         public ArrayList<String> arrlist;
 
@@ -337,7 +338,7 @@ public class ViewFriendsList extends ActionBarActivity {
         @Override
         protected Boolean doInBackground(Context... params) {
             mContext = params[0];
-            arrlist = new ArrayList<String>();
+            arrlist = new ArrayList<>();
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;
@@ -448,10 +449,11 @@ public class ViewFriendsList extends ActionBarActivity {
 
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     private class RemoveFriendTask extends AsyncTask<Context, Void, Integer> {
 
         private String username, password, friend;
-        private Context mContext;
+        // --Commented out by Inspection (3/29/2015 8:14 PM):private Context mContext;
 
         public RemoveFriendTask(String username, String password, String friend) {
             this.username = username;

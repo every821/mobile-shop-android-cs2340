@@ -10,7 +10,8 @@
         android:hint="Item name"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:layout_margin="5dp"
@@ -19,7 +20,8 @@
         android:layout_below="@id/POSTSALE_EDITTEXT_ITEMNAME"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -27,12 +29,13 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/POSTSALE_EDITTEXT_ITEMNAME"
         android:id="@+id/POSTSALE_CHECKBOX_GPS"
-        android:text="GPS"/>
+        android:text="GPS"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <EditText
         android:layout_margin="5dp"
         android:id="@+id/POSTSALE_EDITTEXT_PRICE"
-        android:hint="Price"
+        android:hint="@string/Price"
         android:layout_below="@id/POSTSALE_EDITTEXT_LOCATION"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
@@ -41,10 +44,11 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Include photo"
+        android:text="@string/IncludePhoto"
         android:id="@+id/POSTSALE_CHECKBOX_INCLUDEPHOTO"
         android:layout_below="@id/POSTSALE_EDITTEXT_PRICE"
-        android:layout_alignLeft="@id/POSTSALE_EDITTEXT_PRICE"/>
+        android:layout_alignLeft="@id/POSTSALE_EDITTEXT_PRICE"
+        tools:ignore="RtlHardcoded" />
 
     <ImageView
         android:layout_width="150dp"
@@ -53,7 +57,8 @@
         android:src="@drawable/ic_action_camera"
         android:layout_centerHorizontal="true"
         android:visibility="gone"
-        android:layout_below="@id/POSTSALE_CHECKBOX_INCLUDEPHOTO" />
+        android:layout_below="@id/POSTSALE_CHECKBOX_INCLUDEPHOTO"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/POSTSALE_LINEARLAYOUT_BUTTONSLAYOUT"
@@ -63,18 +68,17 @@
         android:gravity="center_horizontal"
         android:layout_below="@id/POSTSALE_CHECKBOX_INCLUDEPHOTO">
         <Button
-            android:text="Post"
+            android:text="@string/Post"
             android:id="@+id/POSTSALE_BUTTON_POST"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:id="@+id/POSTSALE_BUTTON_CANCEL"/>
-
+            android:text="@string/Cancel"
+            android:id="@+id/POSTSALE_BUTTON_CANCEL"
+            tools:ignore="ButtonOrder,ButtonStyle" />
         </LinearLayout>
-
-
 </RelativeLayout>

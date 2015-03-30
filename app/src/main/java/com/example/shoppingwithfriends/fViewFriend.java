@@ -2,7 +2,6 @@ package com.example.shoppingwithfriends;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -11,17 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import java.util.HashMap;
 
 
+@SuppressWarnings("ALL")
 public class fViewFriend extends ActionBarActivity {
 
-    TextView tvFriend, tvEmail, tvRating, tvReportCount;
-    String username, password, friend;
-    Context mContext;
-    static HashMap<String, String> hm;
+    // --Commented out by Inspection (3/29/2015 8:13 PM):TextView tvFriend, tvEmail, tvRating, tvReportCount;
+    // --Commented out by Inspection (3/29/2015 8:13 PM):String username, password, friend;
+    // --Commented out by Inspection (3/29/2015 8:13 PM):Context mContext;
+    // --Commented out by Inspection (3/29/2015 8:13 PM):static HashMap<String, String> hm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +26,9 @@ public class fViewFriend extends ActionBarActivity {
         setContentView(R.layout.activity_f_view_friend);
 
         Bundle extras = getIntent().getExtras();
-        username = extras.getString("username");
-        password = extras.getString("password");
-        friend = extras.getString("friend");
-        mContext = getApplicationContext();
+        String username = extras.getString("username");
+        String password = extras.getString("password");
+        String friend = extras.getString("friend");
 
         fViewFriendFragment fragment = new fViewFriendFragment();
         fragment.setArguments(extras);
@@ -65,8 +61,7 @@ public class fViewFriend extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_f_view_friend, container, false);
-            return rootView;
+            return inflater.inflate(R.layout.fragment_f_view_friend, container, false);
         }
     }
 

@@ -6,12 +6,14 @@
         android:id="@+id/action_filter"
         android:title="Filter"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        tools:ignore="HardcodedText" />
 
     <item
         android:id="@+id/action_update"
         android:title="Update"
         android:orderInCategory="200"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        tools:ignore="HardcodedText" />
 
 </menu>

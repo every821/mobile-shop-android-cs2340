@@ -1,5 +1,6 @@
 package com.example.shoppingwithfriends;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,12 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class GridViewAdapter extends BaseSwipeAdapter {
 
     private Context mContext;
     private ArrayList<String> str;
-    private int viewWithFocus = -1;
+    // --Commented out by Inspection (3/29/2015 8:13 PM):private int viewWithFocus = -1;
 
     public GridViewAdapter(Context mContext, ArrayList<String> str) {
         this.mContext = mContext;
@@ -28,6 +30,7 @@ public class GridViewAdapter extends BaseSwipeAdapter {
 
     //ATTENTION: Never bind listener or fill values in generateView.
     //           You have to do that in fillValues method.
+    @SuppressLint("InflateParams")
     @Override
     public View generateView(int position, ViewGroup parent) {
         return LayoutInflater.from(mContext).inflate(R.layout.swipelayout, null);

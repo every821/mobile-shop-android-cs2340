@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
     android:id="@+id/REGISTER_RELATIVELAYOUT_RL1"
-    android:background="@color/gray">
+    android:background="@color/gray"
+    tools:ignore="Overdraw">
 
     <TextView
         android:textColor="@color/white"
@@ -13,7 +15,8 @@
         android:paddingTop="10dp"
         android:id="@+id/REGISTER_TEXTVIEW_REGISTER"
         android:gravity="center_horizontal"
-        android:text="Register"/>
+        android:text="Register"
+        tools:ignore="HardcodedText,SpUsage" />
 
     <View style="@style/hdivider"
         android:layout_width="fill_parent"
@@ -33,7 +36,8 @@
             android:id="@+id/REGISTER_EDITTEXT_NAME"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Real Name" />
+            android:hint="Real Name"
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:layout_marginTop="15dp"
@@ -43,7 +47,8 @@
             android:layout_below="@id/REGISTER_EDITTEXT_NAME"
             android:layout_alignRight="@id/REGISTER_EDITTEXT_NAME"
             android:layout_alignLeft="@id/REGISTER_EDITTEXT_NAME"
-            android:hint="Username" />
+            android:hint="Username"
+            tools:ignore="HardcodedText,RtlHardcoded" />
 
         <EditText
             android:layout_marginTop="15dp"
@@ -53,7 +58,8 @@
             android:layout_below="@id/REGISTER_EDITTEXT_USERNAME"
             android:layout_alignRight="@id/REGISTER_EDITTEXT_NAME"
             android:layout_alignLeft="@id/REGISTER_EDITTEXT_NAME"
-            android:hint="Password" />
+            android:hint="@string/Password"
+            tools:ignore="RtlHardcoded,TextFields" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,24 +73,22 @@
                 android:textColor="#FFFFFF"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/login_password"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/buttonshape"
-                android:text="Register"
-                android:layout_marginRight="5dp"/>
+                android:text="@string/Register"
+                android:layout_marginEnd="5dp"
+                tools:ignore="ButtonStyle" />
 
             <Button
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:background="@drawable/buttonshape"
                 android:textColor="#FFFFFF"
                 android:id="@+id/REGISTER_BUTTON_CANCEL"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/login_password"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
-                android:text="Cancel" />
+                android:text="@string/Cancel"
+                tools:ignore="ButtonOrder,ButtonStyle" />
         </LinearLayout>
     </RelativeLayout>
 

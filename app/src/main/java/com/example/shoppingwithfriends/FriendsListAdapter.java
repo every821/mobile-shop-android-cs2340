@@ -1,5 +1,6 @@
 package com.example.shoppingwithfriends;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.daimajia.swipe.SwipeLayout;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class FriendsListAdapter extends ArrayAdapter<String> implements SwipeLayout.SwipeListener {
     private final Context context;
 
@@ -54,7 +56,7 @@ public class FriendsListAdapter extends ArrayAdapter<String> implements SwipeLay
         final int pos = position;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.friends_list_item, parent, false);
+        @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.friends_list_item, parent, false);
         TextView tvUsername = (TextView) rowView.findViewById(R.id.FRIENDSLISTITEM_TEXTIEW_ITEM);
         ImageView ivAddView = (ImageView) rowView.findViewById(R.id.FRIENDSLISTITEM_IMAGEVIEW_ADDORVIEW);
         ivAddView.setOnClickListener(new View.OnClickListener() {
