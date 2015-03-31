@@ -123,7 +123,10 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PostSaleTask().execute();
+                String item = etItemName.getText().toString();
+                String location = etLocation.getText().toString();
+                String price = etPrice.getText().toString();
+                new PostSaleTask(username, item, location, price).execute();
             }
         });
 
@@ -598,13 +601,31 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
 
     private class PostSaleTask extends AsyncTask<String, Void, Boolean> {
 
+        String username, item, location, price;
+
+        public PostSaleTask(String username, String item, String location, String price) {
+            this.username = username;
+            this.item = item;
+            this.location = location;
+            this.price = price;
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
                 HttpURLConnection conn = null;
                 URL url = null;
-                String item = etItemName.getText().toString();
-                String location = etLocation.getText().toString();
-                String price = etPrice.getText().toString();
+                if (item.trim().length() == 0) {
+                    return false;
+                }
+                if (location.trim().length() == 0) {
+                    return false;
+                }
+                if (price.trim().length() == 0) {
+                    return false;
+                }
+                if (username.trim().length() == 0) {
+                    return false;
+                }
                 String query = String.format("username=%s&item=%s&location=%s&price=%s", username, item, location, price);
                 try {
                     url = new URL("http://ythogh.com/shopwf/scripts/post_sale.php");
@@ -655,5 +676,6 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
             }
         }
     }
+
 
 }

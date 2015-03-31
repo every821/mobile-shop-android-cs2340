@@ -19,8 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpStatus;
-
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -34,12 +32,14 @@ public class Register extends Activity {
     // --Commented out by Inspection (3/29/2015 8:14 PM):private HashMap<String, String> hm;
     public static String username = "", password = "", name = "";
     public static int color = Color.BLACK;
+    public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Log.e("initial call", "initial call");
+        mContext = getApplicationContext();
         NinePatchDrawable etError = (NinePatchDrawable) getResources().getDrawable(R.drawable.apptheme_textfield_activated_holo_light);
         etName = (EditText) findViewById(R.id.REGISTER_EDITTEXT_NAME);
         etName.setBackgroundResource(R.drawable.edittext);
@@ -126,36 +126,20 @@ public class Register extends Activity {
         super.onPause();
     }
 
-    public static void onRegisterFail(Context mContext, Integer result) {
-        int r = result;
-        String msg = "";
-        switch (result) {
-            case HttpStatus.SC_CONFLICT:
-                msg = "Username already taken!";
-                break;
-            case HttpStatus.SC_PRECONDITION_FAILED:
-                msg = "Must enter a username!";
-                break;
-            case HttpStatus.SC_SERVICE_UNAVAILABLE:
-                msg = "Cannot connect to server";
-                break;
-            default:
-                msg = "An unexpected error has occured";
-                break;
-
-        }
-        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+    public static void onRegisterFail() {
+        Toast.makeText(mContext, "Can't register with that.", Toast.LENGTH_LONG).show();
         etUsername.setTextColor(Color.RED);
     }
 
-    private void onRegisterSuccess() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+    private static void onRegisterSuccess() {
+        Intent intent = new Intent(mContext, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
-        startActivity(intent);
+        mContext.startActivity(intent);
     }
 
-    private class RegisterTask extends AsyncTask<Context, Void, Integer> {
+    public static class RegisterTask extends AsyncTask<Context, Void, Boolean> {
 
         private String name, username, password;
         private Context mContext;
@@ -167,7 +151,7 @@ public class Register extends Activity {
         }
 
         @Override
-        protected Integer doInBackground(Context... params) {
+        protected Boolean doInBackground(Context... params) {
             mContext = params[0];
             HttpURLConnection conn = null;
             URL url = null;
@@ -189,25 +173,22 @@ public class Register extends Activity {
                 response = conn.getResponseCode();
                 conn.disconnect();
                 out.close();
-                System.out.println(response);
-                System.out.println(HttpStatus.SC_ACCEPTED);
-                return response;
+                return true;
             } catch (Exception e) {
                 conn.disconnect();
                 Log.e("Login", "Exception when logging in: " + response);
                 e.printStackTrace();
-                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+                return false;
             }
         }
 
         @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(Boolean result) {
             System.out.println("result: " + result);
-            if (result == HttpStatus.SC_OK) {
-                onRegisterSuccess();
+            if (result) {
+                Register.onRegisterSuccess();
             } else {
-                Register.onRegisterFail(mContext, result);
+                Register.onRegisterFail();
                 System.out.println("Problem");
             }
         }
