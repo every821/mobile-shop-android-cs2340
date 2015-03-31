@@ -27,11 +27,11 @@ import java.util.HashMap;
 @SuppressWarnings("ALL")
 public class fViewFriendFragment extends Fragment implements View.OnClickListener {
 
-    // --Commented out by Inspection (3/29/2015 8:12 PM):FragmentActivity listener;
+    FragmentActivity listener;
     String username, password, friend, email, rating, report_count;
     Bundle extras;
     TextView tvFriend, tvEmail, tvRating, tvReportCount;
-    // --Commented out by Inspection (3/29/2015 8:12 PM):HashMap<String, String> hm;
+    HashMap<String, String> hm;
 
     @Override
     public void onAttach(Activity activity) {
@@ -63,7 +63,7 @@ public class fViewFriendFragment extends Fragment implements View.OnClickListene
     }
 
     public void onGetFriendInfoTaskReturn(HashMap<String, String> h) {
-        this.hm = h;
+        hm = h;
         tvFriend.setText("Username: " + friend);
         email = hm.get("email");
         rating = hm.get("rating");

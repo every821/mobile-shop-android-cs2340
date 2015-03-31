@@ -15,8 +15,8 @@ import android.widget.Button;
 @SuppressWarnings("ALL")
 public class fFriendPostsFragment extends Fragment implements View.OnClickListener {
 
-    // --Commented out by Inspection (3/29/2015 8:12 PM):FragmentActivity listener;
-    // --Commented out by Inspection (3/29/2015 8:12 PM):String username, password, friend;
+   FragmentActivity listener;
+   String username, password, friend;
     Bundle extras;
 
     @Override

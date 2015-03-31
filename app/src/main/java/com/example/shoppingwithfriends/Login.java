@@ -31,6 +31,7 @@ public class Login extends Activity {
     private TextView tvInvalidLogin;
     private String username, password;
     public static User user;
+    public static Context mContext;
 
     /**
      * @param savedInstanceState Loads the state from the previous time the activity was started
@@ -40,6 +41,7 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mContext = getApplicationContext();
         btLogin = (Button) findViewById(R.id.LOGIN_BUTTON_LOGIN);
         Button btCancel = (Button) findViewById(R.id.LOGIN_BUTTON_CANCEL);
         etUsername = (EditText) findViewById(R.id.LOGIN_EDITTEXT_USERNAME);
@@ -111,21 +113,22 @@ public class Login extends Activity {
     /**
      * Displays login error message on login fail
      */
-    public void onLoginFail() {
+    public static void onLoginFail() {
         System.out.println("Problem");
-        Toast.makeText(getApplicationContext(), "Problem logging in", Toast.LENGTH_SHORT).show();
-        tvInvalidLogin.setVisibility(View.VISIBLE);
+        Toast.makeText(mContext, "Problem logging in", Toast.LENGTH_SHORT).show();
+
     }
 
     /**
      * Displays login success message on login success
      */
-    public void onLoginSuccess() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+    public static void onLoginSuccess() {
+        Intent intent = new Intent(mContext, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
     }
 
-    public class LoginTask extends AsyncTask<Context, Void, Boolean> {
+    public static class LoginTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password;
 
