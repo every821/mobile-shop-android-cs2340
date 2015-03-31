@@ -60,19 +60,19 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
 
     static final int REQUEST_RESOLVE_ERROR = 1001;
     boolean mResolvingError = false;
-    String username, password; // --Commented out by Inspection (3/29/2015 8:13 PM):password;
-    Context mContext;
+    static String username, password; // --Commented out by Inspection (3/29/2015 8:13 PM):password;
+    static Context mContext;
     GoogleApiClient mGoogleApiClient;
     LatLng myLocation;
     Location mLastLocation;
-    EditText etItemName, etLocation, etPrice;
-    CheckBox cbGPS, cbIncludePhoto;
+    static EditText etItemName, etLocation, etPrice;
+    static CheckBox cbGPS, cbIncludePhoto;
     Button btPost, btCancel;
     ImageView ivItemImage;
     LinearLayout llButtonsLayout;
     String enteredAddress = "";
     Bitmap bmp;
-    File photo;
+    static File photo;
     String imageFilename;
 
     @Override
@@ -441,7 +441,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         }
     }
 
-    private class UploadImageTask extends AsyncTask<String, Void, Boolean> {
+    public static class UploadImageTask extends AsyncTask<String, Void, Boolean> {
         File photo;
         HttpURLConnection conn;
 
@@ -457,7 +457,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
 
         @Override
         protected void onPostExecute(Boolean result) {
-            onPostSaleReturn();
+
         }
 
         private boolean uploadPhoto(String itemname) {
@@ -599,9 +599,10 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         }
     }
 
-    private class PostSaleTask extends AsyncTask<String, Void, Boolean> {
+    private static class PostSaleTask extends AsyncTask<Context, Void, Boolean> {
 
         String username, item, location, price;
+        Context mContext;
 
         public PostSaleTask(String username, String item, String location, String price) {
             this.username = username;
@@ -611,8 +612,11 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(Context... params) {
                 HttpURLConnection conn = null;
+                if (params != null && params.length > 0) {
+                    mContext = params[0];
+                }
                 URL url = null;
                 if (item.trim().length() == 0) {
                     return false;
@@ -665,14 +669,14 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
             if (result) {
                 if (cbIncludePhoto.isChecked() && photo != null) {
                     System.out.println("True, true");
-                    new UploadImageTask(photo).execute(etItemName.getText().toString());
+                    new UploadImageTask(photo).execute(this.item);
                 } else {
                     System.out.println("True, False");
-                    onPostSaleReturn();
+
                 }
             } else {
                 System.out.println("False");
-                Toast.makeText(getApplicationContext(), "Problem posting this sale :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Problem posting this sale :(", Toast.LENGTH_SHORT).show();
             }
         }
     }
