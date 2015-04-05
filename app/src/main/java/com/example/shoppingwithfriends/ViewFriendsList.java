@@ -22,8 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpStatus;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -45,8 +43,8 @@ public class ViewFriendsList extends ActionBarActivity {
     GridViewAdapter nadapter;
     // --Commented out by Inspection (3/29/2015 8:14 PM):FriendsListAdapter adapter;
     UsersListAdapter madapter;
-    ArrayList<String> allFriends, searchedFriends;
-    ArrayList<String> allUsers, searchedUsers;
+    static ArrayList<String> allFriends, searchedFriends;
+    static ArrayList<String> allUsers, searchedUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -337,8 +335,15 @@ public class ViewFriendsList extends ActionBarActivity {
          */
         @Override
         protected Boolean doInBackground(Context... params) {
-            mContext = params[0];
+
             arrlist = new ArrayList<>();
+            if (username.trim().length() == 0) {
+                return false;
+            }
+            if (password.trim().length() == 0) {
+                return false;
+            }
+
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;
@@ -390,7 +395,7 @@ public class ViewFriendsList extends ActionBarActivity {
         }
     }
 
-    private class AddFriendTask extends AsyncTask<Context, Void, Integer> {
+    private class AddFriendTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password, friend;
         private Context mContext;
@@ -402,8 +407,8 @@ public class ViewFriendsList extends ActionBarActivity {
         }
 
         @Override
-        protected Integer doInBackground(Context... params) {
-            mContext = params[0];
+        protected Boolean doInBackground(Context... params) {
+           // mContext = params[0];
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;
@@ -424,22 +429,19 @@ public class ViewFriendsList extends ActionBarActivity {
                 response = conn.getResponseCode();
                 conn.disconnect();
                 out.close();
-                System.out.println(response);
-                System.out.println(HttpStatus.SC_ACCEPTED);
-                return response;
+                return true;
             } catch (Exception e) {
                 conn.disconnect();
                 Log.e("Login", "Exception when logging in: " + response);
                 e.printStackTrace();
-                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+                return false;
             }
         }
 
         @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(Boolean result) {
             System.out.println("result: " + result);
-            if (result == HttpStatus.SC_ACCEPTED) {
+            if (result) {
                 Toast.makeText(mContext, "Friend added!", Toast.LENGTH_SHORT).show();
                 onAddFriendReturn(friend);
             } else {
@@ -450,7 +452,7 @@ public class ViewFriendsList extends ActionBarActivity {
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    private class RemoveFriendTask extends AsyncTask<Context, Void, Integer> {
+    private class RemoveFriendTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password, friend;
         // --Commented out by Inspection (3/29/2015 8:14 PM):private Context mContext;
@@ -467,8 +469,8 @@ public class ViewFriendsList extends ActionBarActivity {
          * @return Result code from php request
          */
         @Override
-        protected Integer doInBackground(Context... params) {
-            mContext = params[0];
+        protected Boolean doInBackground(Context... params) {
+            //mContext = params[0];
             HttpURLConnection conn = null;
             URL url = null;
             int response = 400;
@@ -486,17 +488,15 @@ public class ViewFriendsList extends ActionBarActivity {
                 conn.setRequestProperty("Content-Length", "" + query.length());
                 OutputStream out = conn.getOutputStream();
                 out.write(query.getBytes());
-                response = conn.getResponseCode();
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 conn.disconnect();
                 out.close();
-                System.out.println(response);
-                System.out.println(HttpStatus.SC_ACCEPTED);
-                return response;
+                return in.readLine().equals("1");
             } catch (Exception e) {
                 conn.disconnect();
                 Log.e("Remove friend", "Error " + response);
                 e.printStackTrace();
-                return HttpStatus.SC_SERVICE_UNAVAILABLE;
+                return false;
             }
         }
 
@@ -505,10 +505,9 @@ public class ViewFriendsList extends ActionBarActivity {
          * @param result Result code from php request
          */
         @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(Boolean result) {
             System.out.println("result: " + result);
-            if (result == HttpStatus.SC_ACCEPTED) {
+            if (result) {
                 onRemoveFriendReturn(friend);
             } else {
 

@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,12 +29,12 @@ import java.net.URL;
 public class Register extends Activity {
 
     private EditText etName, etPassword;
-    private static EditText etUsername;
+    private EditText etUsername;
     // --Commented out by Inspection (3/29/2015 8:14 PM):private TextView tvRegister;
     // --Commented out by Inspection (3/29/2015 8:14 PM):private HashMap<String, String> hm;
-    public static String username = "", password = "", name = "";
+    public String username = "", password = "", name = "";
     public static int color = Color.BLACK;
-    public static Context mContext;
+    public Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,20 +128,19 @@ public class Register extends Activity {
         super.onPause();
     }
 
-    public static void onRegisterFail() {
-        Toast.makeText(mContext, "Can't register with that.", Toast.LENGTH_LONG).show();
+    public void onRegisterFail() {
+        Toast.makeText(getApplicationContext(), "Can't register with that.", Toast.LENGTH_LONG).show();
         etUsername.setTextColor(Color.RED);
     }
 
-    private static void onRegisterSuccess() {
-        Intent intent = new Intent(mContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    private void onRegisterSuccess() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
-        mContext.startActivity(intent);
+        startActivity(intent);
     }
 
-    public static class RegisterTask extends AsyncTask<Context, Void, Boolean> {
+    private class RegisterTask extends AsyncTask<Context, Void, Boolean> {
 
         private String name, username, password;
         private Context mContext;
@@ -152,10 +153,19 @@ public class Register extends Activity {
 
         @Override
         protected Boolean doInBackground(Context... params) {
-            mContext = params[0];
             HttpURLConnection conn = null;
             URL url = null;
-            int response = 400;
+
+            if (name.trim().length() == 0) {
+                return false;
+            }
+            if (username.trim().length() == 0) {
+                return false;
+            }
+            if (password.trim().length() == 0) {
+                return false;
+            }
+
             String query = String.format("name=%s&username=%s&password=%s", name, username, password);
             try {
                 url = new URL("http://ythogh.com/shopwf/scripts/register.php");
@@ -170,13 +180,15 @@ public class Register extends Activity {
                 conn.setRequestProperty("Content-Length", "" + query.length());
                 OutputStream out = conn.getOutputStream();
                 out.write(query.getBytes());
-                response = conn.getResponseCode();
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String res = in.readLine();
+                boolean result = res.equals("1");
+                in.close();
                 conn.disconnect();
                 out.close();
-                return true;
+                return result;
             } catch (Exception e) {
                 conn.disconnect();
-                Log.e("Login", "Exception when logging in: " + response);
                 e.printStackTrace();
                 return false;
             }
@@ -186,9 +198,9 @@ public class Register extends Activity {
         protected void onPostExecute(Boolean result) {
             System.out.println("result: " + result);
             if (result) {
-                Register.onRegisterSuccess();
+                onRegisterSuccess();
             } else {
-                Register.onRegisterFail();
+                onRegisterFail();
                 System.out.println("Problem");
             }
         }

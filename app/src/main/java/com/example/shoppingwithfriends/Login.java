@@ -31,7 +31,7 @@ public class Login extends Activity {
     private TextView tvInvalidLogin;
     private String username, password;
     public static User user;
-    public static Context mContext;
+    public Context mContext;
 
     /**
      * @param savedInstanceState Loads the state from the previous time the activity was started
@@ -113,22 +113,21 @@ public class Login extends Activity {
     /**
      * Displays login error message on login fail
      */
-    public static void onLoginFail() {
+    public void onLoginFail() {
         System.out.println("Problem");
-        Toast.makeText(mContext, "Problem logging in", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Problem logging in", Toast.LENGTH_SHORT).show();
 
     }
 
     /**
      * Displays login success message on login success
      */
-    public static void onLoginSuccess() {
-        Intent intent = new Intent(mContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+    public void onLoginSuccess() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
-    public static class LoginTask extends AsyncTask<Context, Void, Boolean> {
+    private class LoginTask extends AsyncTask<Context, Void, Boolean> {
 
         private String username, password;
 
@@ -157,7 +156,6 @@ public class Login extends Activity {
                 conn.setRequestProperty("Content-Length", "" + query.length());
                 OutputStream out = conn.getOutputStream();
                 out.write(query.getBytes());
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String inputLine = "";
                 user = new User(username, password);

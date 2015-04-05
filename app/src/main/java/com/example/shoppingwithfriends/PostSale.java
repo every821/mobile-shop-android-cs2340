@@ -599,7 +599,7 @@ public class PostSale extends ActionBarActivity implements GoogleApiClient.Conne
         }
     }
 
-    public static class PostSaleTask extends AsyncTask<Context, Void, Boolean> {
+    private class PostSaleTask extends AsyncTask<Context, Void, Boolean> {
 
         String username, item, location, price;
         Context mContext;
